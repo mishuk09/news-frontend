@@ -25,9 +25,36 @@ const Navbar = () => {
                 <div className="flex gap-4">
                     <Search className="" size={24} />
                     <Languages className="" size={24} />
-                    <button onClick={toggleTheme} className='text-xl'>
-                        {theme === 'light' ? '🌙  ' : '☀️ '}
+                    <button
+                        onClick={toggleTheme}
+                        className="
+    relative inline-flex items-center h-6 w-12
+    bg-gray-200 dark:bg-gray-700
+    rounded-full px-1
+    transition-colors duration-300
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+  "
+                    >
+                        {/* Moon icon (left) */}
+                        <span className="absolute left-1 text-xs text-gray-600 dark:text-gray-300">
+                            🌙
+                        </span>
+
+                        {/* Sun icon (right) */}
+                        <span className="absolute right-1 text-xs text-gray-600 dark:text-gray-300">
+                            ☀️
+                        </span>
+
+                        {/* Sliding thumb */}
+                        <span
+                            className={`
+      inline-block w-4 h-4 bg-white rounded-full shadow
+      transform transition-transform duration-300
+      ${theme === 'light' ? 'translate-x-0' : 'translate-x-6'}
+    `}
+                        />
                     </button>
+
                 </div>
             </div>
 
