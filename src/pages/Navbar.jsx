@@ -20,7 +20,7 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
                 <span className=" ">ঢাকা, রবিবার ৩০ মার্চ ২০২৫</span>
 
-                <div className="text-4xl font-bold  ">NEWS 71</div>
+                <a href='/' className="text-4xl font-bold  ">NEWS 71</a>
 
                 <div className="flex gap-4">
                     <Search className="" size={24} />
