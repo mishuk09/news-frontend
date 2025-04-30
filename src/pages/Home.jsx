@@ -83,7 +83,7 @@ const Home = () => {
                     <div className=' hidden md:block  w-[25%] px-2 h-full rounded'>
                         <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-3 mt-0 shadow-md rounded-sm`}>
                             <h2 className='text-1xl font-nunito font-bold border-b-2 border-dotted pb-1 mb-2'>Category</h2>
-                            <ul>
+                            <ul className='overflow-hidden category-scrollbar max-h-[205px] overflow-y-auto'>
                                 {categories.map(({ category, count }) => (
                                     <li>
                                         <div key={blogs.name} className='border-b cursor-pointer hover:text-green-700  border-dotted mt-1 border-slate-900 font-nunito font-bold text-sm'>
@@ -94,7 +94,7 @@ const Home = () => {
                                                         <List className='me-2' />
                                                         {category}
                                                     </p>
-                                                    <p> ({count})</p>
+                                                    <p className='me-2'> ({count})</p>
                                                 </div>
                                             </div>
 
@@ -114,7 +114,9 @@ const Home = () => {
                                         className="inline-block rounded object-cover  w-14 h-14" />
                                     <div className="flex flex-col items-start ps-2">
                                         <p className='hover:text-green-600 font-medium    leading-6 duration-200'>
-                                            {blog.title.split(' ').slice(0, 4).join(' ')}…
+                                            {blog.title
+                                                ? `${blog.title.split(" ").slice(0, 3).join(" ")}…`
+                                                : "Untitled…"}
                                         </p>
                                         {/* <p className='mt-2 flex gap-1 text-xs  '>
                                             <Clock size={15} />
@@ -130,11 +132,11 @@ const Home = () => {
                             ))}
 
                         </div>
-                        <div className='mt-6 grid grid-cols-1 gap-2 relative'>
+                        <div className='mt-2 grid grid-cols-1 gap-2 relative'>
 
                             {
                                 blogs && blogs.slice(0, 2).map((blog) => (
-                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'bg-gray-800' : 'cursor-pointer flex-col gap-3     shadow rounded-sm '} `}>
+                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'bg-gray-800' : 'cursor-pointer flex-col gap-3  h-[220px]   shadow rounded-sm '} `}>
                                         <img src={blog.img} alt="" className="inline-block  rounded-t h-[150px] w-full object-cover" />
                                         <div className="flex flex-col items-start p-1">
 
@@ -156,7 +158,7 @@ const Home = () => {
 
                     </div>
 
-                    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-2 w-full md:w-[50%] h-full rounded relative`}>
+                    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} p-1  w-full md:w-[50%] h-full rounded relative`}>
                         <div className='h-full    relative rounded-sm'>
 
                             {Array.isArray(blogs) && blogs.slice(2, 3).map((blog) => (
@@ -238,12 +240,14 @@ const Home = () => {
                         <div className='mt-8 grid grid-cols-2 gap-2 relative'>
 
                             {
-                                blogs && blogs.map((blog) => (
+                                blogs && blogs.slice(0,6).map((blog) => (
                                     <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'bg-gray-800' : 'cursor-pointer flex-col gap-3     shadow rounded-sm '} `}>
                                         <img src={blog.img} alt="" className="inline-block  rounded-t h-[150px] w-full object-cover" />
                                         <div className="flex flex-col items-start p-1">
 
-                                            <p className="mb-1 leading-6   font-medium   hover:text-green-600 duration-200  ">  {blog.title.split(' ').slice(0, 4).join(' ')}…</p>
+                                            <p className="mb-1 leading-6   font-medium   hover:text-green-600 duration-200  ">   {blog.title
+                                                ? `${blog.title.split(" ").slice(0, 5).join(" ")}…`
+                                                : "Untitled…"} </p>
 
                                             <p className='mt-2 flex gap-1 text-xs '>
                                                 <Clock size={15} />
@@ -259,7 +263,7 @@ const Home = () => {
                                 ))}
                         </div>
                     </div>
-                    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-2 w-[25%] h-full hidden md:block   rounded`}>
+                    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-1 w-[25%] h-full hidden md:block   rounded`}>
 
                         <div className='grid grid-cols-2 gap-2'>
                             <a href={socialLinks.facebook} target='_blank' rel='noopener noreferrer' className='w-full flex cursor-pointer text-white items-center ps-2 h-10 rounded-sm bg-blue-600'>

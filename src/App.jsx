@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
 import Navbar from "./pages/Navbar"
 import BlogDetails from "./pages/BlogDetails"
-import TranslatorToggle from "./utills/TranslatorToggle"
+import ChildHome from "./pages/ChildHome"
 
 
 function App() {
@@ -11,10 +11,9 @@ function App() {
     <>
 
       <Navbar />
-      <TranslatorToggle />
 
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<ChildHome />} />
         <Route path='/product/:id' element={<BlogDetails />} />
       </Routes>
 

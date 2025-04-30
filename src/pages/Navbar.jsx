@@ -4,6 +4,7 @@ import { ThemeContext } from '../hooks/ThemeContext';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [search, setSearch] = useState(false)
     const { theme, toggleTheme } = useContext(ThemeContext);
 
     const toggleMobileMenu = () => {
@@ -17,13 +18,19 @@ const Navbar = () => {
     return (
         <div>
             {/* Top Section with Date and Logo */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4 relative">
                 <span className=" ">ঢাকা, রবিবার ৩০ মার্চ ২০২৫</span>
 
                 <a href='/' className="text-4xl font-bold  ">NEWS 71</a>
 
+
+
+                {search && <div className="absolute top-18 left-1/2 w-1/3   rounded-lg bg-blue-50 z-20 flex justify-center items-center">
+                    <input type="text" placeholder='Search...' className='border border-blue-300 w-full rounded-lg p-2' />
+                </div>
+                }
                 <div className="flex gap-4">
-                    <Search className="" size={24} />
+                    <Search onClick={() => setSearch(true)} className="" size={24} />
                     <Languages className="" size={24} />
                     <button
                         onClick={toggleTheme}
@@ -62,15 +69,23 @@ const Navbar = () => {
             <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-blue-100'}  h-12`}>
                 <nav className="max-w-7xl mx-auto flex h-full justify-between items-center">
                     {/* Desktop Menu */}
-                    <ul className="hidden border-r py-2 border-gray-300 lg:flex space-x-6 w-full justify-between">
-                        <li className='flex '><a href="/" className=" h-full    hover:text-blue-600 transition">সরবরাহ </a> <ChevronDown /></li>
+                    <ul className="hidden font-medium border-r py-2 border-gray-300 lg:flex space-x-6 w-full justify-between">
+                        <li className='flex '><a href="/" className=" h-full    hover:text-blue-600 transition">সর্বশেষ </a> </li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">বাংলাদেশ</a></li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">বিশ্ব</a></li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">খেলা</a></li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">বাণিজ্য</a></li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">ইসলামী জীবন</a></li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">জীবনযাপন</a></li>
+                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">তথ্যপ্রযুক্তি
+
+                        </a></li>
+                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">ভ্রমণ
+
+                        </a></li>
+                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">বিবিধ</a></li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">ভিডিও</a></li>
+                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">বিনোদন</a></li>
                         <li><a href="/" className=" h-full    hover:text-blue-600 transition">পত্রিকা</a></li>
                     </ul>
 
