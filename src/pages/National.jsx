@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Headline from '../components/Headline';
+import NatonalFormat from '../components/NationalFormat/NatonalFormat';
 
 const National = () => {
-    const [selectedCategory, setSelectedCategory] = useState('');
+
     const [selectedDivision, setSelectedDivision] = useState('');
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [selectedUpazila, setSelectedUpazila] = useState('');
@@ -71,7 +72,10 @@ const National = () => {
                 </div>
 
 
+
+
             </div>
+            <NatonalFormat />
         </div>
     );
 }
