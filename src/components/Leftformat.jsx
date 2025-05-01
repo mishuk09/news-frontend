@@ -5,7 +5,7 @@ import axios from 'axios';
 const Leftformat = ({ path }) => {
     const { theme } = useContext(ThemeContext);
     const [blogs, setBlogs] = useState([]);
-    
+
     useEffect(() => {
         axios.get(`http://localhost:5000/${path}/`)
             .then(response => {
@@ -21,10 +21,10 @@ const Leftformat = ({ path }) => {
 
     return (
         <div>
-            <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-3 shadow-md rounded-sm mt-2`}>
+            <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'}  p-3 shadow-md rounded-sm mt-1`}>
                 <h2 className='text-1xl mb-3   font-bold border-b-2 border-dotted pb-1'>Random Blog</h2>
 
-                {Array.isArray(blogs) && blogs.slice(0, 5).map((blog) => (
+                {Array.isArray(blogs) && blogs.slice(0, 6).map((blog) => (
                     <a key={blog._id} href={`/product/${blog._id}`}
                         className="flex  p-3 h-auto      cursor-pointer  lg:mb-1 lg:flex-row    rounded shadow">
                         <img src={blog.img} alt=""

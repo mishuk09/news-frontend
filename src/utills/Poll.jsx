@@ -19,7 +19,7 @@ export default function Poll() {
   };
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}   rounded  p-2  mx-auto `}>
+    <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'}   rounded  p-2  mx-auto `}>
       {/* Header */}
       <div className="flex justify-between items-center border-b border-gray-200 pb-2">
         <h2 className="text-xl font-bold   relative inline-block">

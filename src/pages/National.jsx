@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Headline from '../components/Headline';
 import NatonalFormat from '../components/NationalFormat/NatonalFormat';
+import { ThemeContext } from '../hooks/ThemeContext';
 
 const National = () => {
+    const { theme } = useContext(ThemeContext);
 
     const [selectedDivision, setSelectedDivision] = useState('');
     const [selectedDistrict, setSelectedDistrict] = useState('');
@@ -12,8 +14,7 @@ const National = () => {
         <div className="  p-4 mt-10 rounded-lg max-w-7xl mx-auto">
             <Headline name='বাংলাদেশ' link='https://flagsireland.com/cdn/shop/files/BangladeshFlag.png?v=1705068579' />
 
-
-            <div className="mt-4 px-10 h-30 bg-white items-center border border-gray-300  rounded-2xl  flex justify-between  gap-4 ">
+            <div className={`${theme === 'dark' ? ' dark-bg-color  mt-4 px-10 h-30   items-center border border-gray-300  rounded-2xl  flex justify-between  gap-4 ' : 'shadow bg-white mt-4 px-10 h-30   items-center border border-gray-300  rounded-2xl  flex justify-between  gap-4 '}`}>
                 <div className="flex flex-col">
 
                     <p className='font-semibold text-xl'>জেলার খবর</p>
@@ -23,7 +24,7 @@ const National = () => {
                 <div className="flex flex-col">
                     <select
                         id="division"
-                        className="mt-2 p-2 border border-gray-300 w-60 rounded-md text-gray-700"
+                        className="mt-2 p-2 border border-gray-300 w-60 rounded-md "
                         value={selectedDivision}
                         onChange={(e) => setSelectedDivision(e.target.value)}
                     >
@@ -37,7 +38,7 @@ const National = () => {
                 <div className="flex flex-col">
                     <select
                         id="district"
-                        className="mt-2 p-2 border border-gray-300 w-60 rounded-md text-gray-700"
+                        className="mt-2 p-2 border border-gray-300 w-60 rounded-md "
                         value={selectedDistrict}
                         onChange={(e) => setSelectedDistrict(e.target.value)}
                     >
@@ -52,7 +53,7 @@ const National = () => {
 
                     <select
                         id="upazila"
-                        className="mt-2 p-2 border border-gray-300 w-60 rounded-md text-gray-700"
+                        className="mt-2 p-2 border border-gray-300 w-60 rounded-md "
                         value={selectedUpazila}
                         onChange={(e) => setSelectedUpazila(e.target.value)}
                     >

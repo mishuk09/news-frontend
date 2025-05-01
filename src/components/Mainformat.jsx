@@ -26,12 +26,14 @@ const Mainformat = ({ path }) => {
 
                 {
                     blogs && blogs.slice(0, 1).map((blog) => (
-                        <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'bg-gray-800' : 'cursor-pointer flex-col gap-3     shadow rounded-sm '} `}>
+                        <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'dark-bg-color' : 'cursor-pointer flex-col gap-3     shadow rounded-sm '} `}>
                             <img src={blog.img} alt="" className="inline-block  rounded-t h-full w-full object-cover" />
                             <div className="flex flex-col items-start p-1">
 
-                                <p className="mb-1 leading-6   font-semibold text-2xl mt-3   hover:text-green-600 duration-200  ">   {blog.title
+                                <p className="mb-1 leading-6   font-semibold text-2xl mt-4   hover:text-green-600 duration-200  ">   {blog.title
                                 } </p>
+                                <div className='text-justify pt-2' dangerouslySetInnerHTML={{ __html: blog.description.split(' ').slice(0, 20).join(' ') }} />
+
 
                                 <p className='mt-2 flex gap-1 text-xs '>
                                     <Clock size={15} />

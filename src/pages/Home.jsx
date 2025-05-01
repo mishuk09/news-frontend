@@ -81,7 +81,7 @@ const Home = () => {
             <div className='max-w-7xl mx-auto'>
                 <div className='flex  gap-2 w-full pt-6'>
                     <div className=' hidden md:block  w-[25%] px-2 h-full rounded'>
-                        <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-3 mt-0 shadow-md rounded-sm`}>
+                        <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}  p-3 mt-0 shadow-md rounded-sm`}>
                             <h2 className='text-1xl font-nunito font-bold border-b-2 border-dotted pb-1 mb-2'>Category</h2>
                             <ul className='overflow-hidden category-scrollbar max-h-[205px] overflow-y-auto'>
                                 {categories.map(({ category, count }) => (
@@ -104,7 +104,7 @@ const Home = () => {
                             </ul>
 
                         </div>
-                        <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-3 shadow-md rounded-sm mt-2`}>
+                        <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}  p-3 shadow-md rounded-sm mt-2`}>
                             <h2 className='text-1xl mb-3   font-bold border-b-2 border-dotted pb-1'>Random Blog</h2>
 
                             {Array.isArray(blogs) && blogs.slice(0, 5).map((blog) => (
@@ -136,7 +136,7 @@ const Home = () => {
 
                             {
                                 blogs && blogs.slice(0, 2).map((blog) => (
-                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'bg-gray-800' : 'cursor-pointer flex-col gap-3  h-[220px]   shadow rounded-sm '} `}>
+                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? ' dark-bg-color cursor-pointer flex-col gap-3  h-[220px]   shadow rounded-sm ' : 'cursor-pointer flex-col gap-3  h-[220px]   shadow rounded-sm '} `}>
                                         <img src={blog.img} alt="" className="inline-block  rounded-t h-[150px] w-full object-cover" />
                                         <div className="flex flex-col items-start p-1">
 
@@ -158,7 +158,7 @@ const Home = () => {
 
                     </div>
 
-                    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} p-1  w-full md:w-[50%] h-full rounded relative`}>
+                    <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} p-1  w-full md:w-[50%] h-full rounded relative`}>
                         <div className='h-full    relative rounded-sm'>
 
                             {Array.isArray(blogs) && blogs.slice(2, 3).map((blog) => (
@@ -192,22 +192,7 @@ const Home = () => {
                         <div className=' grid grid-cols-2 gap-2 mt-2 relative'>
 
                             {Array.isArray(blogs) && blogs.slice(1, 3).map((blog) => (
-                                // <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme==='dark'? 'bg-gray-800':'cursor-pointer flex-col gap-3     shadow rounded-sm '}   `}>
-                                //     <img src={blog.img} alt="" className="inline-block  rounded-t h-[150px] w-full object-cover" />
-                                //     <div className="flex flex-col items-start p-1">
-
-                                //         <p className="mb-1 leading-6   font-medium   hover:text-green-600 duration-200  "> {blog.title}...</p>
-
-                                //         <p className='mt-2 flex gap-1 text-xs '>
-                                //             <Clock size={15} />
-                                //             {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                //                 year: 'numeric',
-                                //                 month: 'long',
-                                //                 day: 'numeric',
-                                //             })}
-                                //         </p>
-                                //     </div>
-                                // </a>
+                               
                                 <a className='cursor-pointer'
                                     href={`/product/${blog._id}`}
                                     key={blog.id}>
@@ -241,7 +226,7 @@ const Home = () => {
 
                             {
                                 blogs && blogs.slice(0,6).map((blog) => (
-                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'bg-gray-800' : 'cursor-pointer flex-col gap-3     shadow rounded-sm '} `}>
+                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'dark-bg-color flex-col gap-3 ' : 'cursor-pointer flex-col gap-3     shadow rounded-sm '} `}>
                                         <img src={blog.img} alt="" className="inline-block  rounded-t h-[150px] w-full object-cover" />
                                         <div className="flex flex-col items-start p-1">
 
@@ -263,7 +248,7 @@ const Home = () => {
                                 ))}
                         </div>
                     </div>
-                    <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}  p-1 w-[25%] h-full hidden md:block   rounded`}>
+                    <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}  p-1 w-[25%] h-full hidden md:block   rounded`}>
 
                         <div className='grid grid-cols-2 gap-2'>
                             <a href={socialLinks.facebook} target='_blank' rel='noopener noreferrer' className='w-full flex cursor-pointer text-white items-center ps-2 h-10 rounded-sm bg-blue-600'>
@@ -309,7 +294,7 @@ const Home = () => {
                                 </a>
                             ))}
                         </div>
-                        <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}   mt-2 h-full rounded-sm`}>
+                        <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}   mt-2 h-full rounded-sm`}>
 
                             {Array.isArray(blogs) && blogs.slice(0, 3).map((blog) => (
                                 <a key={blog._id} href={`/product/${blog._id}`} className="flex p-3 h-auto       cursor-pointer    lg:mb-1 lg:flex-row   shadow ">

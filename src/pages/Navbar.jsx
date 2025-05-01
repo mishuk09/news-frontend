@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Calendar, ChevronDown, Languages, Menu, Search, Sun } from 'lucide-react';
 import { ThemeContext } from '../hooks/ThemeContext';
 
@@ -7,6 +7,21 @@ const Navbar = () => {
     const [search, setSearch] = useState(false)
     const { theme, toggleTheme } = useContext(ThemeContext);
 
+    const [todayBn, setTodayBn] = useState('');
+
+
+    useEffect(() => {
+        const now = new Date();
+        const opts = {
+            weekday: 'long',  
+            day: 'numeric', 
+            month: 'long',  
+            year: 'numeric'  
+        };
+        // 'bn-BD' for Bangla (Bangladesh) locale
+        const formatted = now.toLocaleDateString('bn-BD', opts);
+        setTodayBn(formatted);
+    }, []);
     const toggleMobileMenu = () => {
         setIsOpen(!isOpen);
     };
@@ -19,7 +34,9 @@ const Navbar = () => {
         <div>
             {/* Top Section with Date and Logo */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4 relative">
-                <span className=" ">ঢাকা, রবিবার ৩০ মার্চ ২০২৫</span>
+                <span className="">
+                    ঢাকা, {todayBn}
+                </span>
 
                 <a href='/' className="text-4xl font-bold  ">NEWS 71</a>
 
@@ -66,7 +83,7 @@ const Navbar = () => {
             </div>
 
             {/* Navigation Menu */}
-            <div className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-blue-100'}  h-12`}>
+            <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-blue-100'}  h-12`}>
                 <nav className="max-w-7xl mx-auto flex h-full justify-between items-center">
                     {/* Desktop Menu */}
                     <ul className="hidden font-medium border-r py-2 border-gray-300 lg:flex space-x-6 w-full justify-between">
