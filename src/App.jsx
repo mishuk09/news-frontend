@@ -3,6 +3,7 @@ import Home from "./pages/Home"
 import Navbar from "./pages/Navbar"
 import BlogDetails from "./pages/BlogDetails"
 import ChildHome from "./pages/ChildHome"
+import Footer from "./pages/Footer"
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path='/product/:id' element={<BlogDetails />} />
       </Routes>
 
+      <Footer />
     </>
   )
 }

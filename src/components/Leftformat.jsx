@@ -2,22 +2,53 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../hooks/ThemeContext';
 import axios from 'axios';
 
-const Leftformat = ({ path }) => {
+const Leftformat = ({ path, division, district, upazila }) => {
     const { theme } = useContext(ThemeContext);
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
         axios.get(`http://localhost:5000/${path}/`)
             .then(response => {
-                // setPosts(response.data.slice(0, 12));
-                setBlogs(response.data);
+                const nofilter = response.data;
 
+                let filteredBlogs = [];
+
+                if (division && district && upazila) {
+                    // Try to match all three
+                    filteredBlogs = nofilter.filter(blog =>
+                        blog.divission === division &&
+                        blog.district === district &&
+                        blog.upazila === upazila
+                    );
+                }
+
+                if (filteredBlogs.length === 0 && division && district) {
+                    // Try to match division + district
+                    filteredBlogs = nofilter.filter(blog =>
+                        blog.divission === division &&
+                        blog.district === district
+                    );
+                }
+
+                if (filteredBlogs.length === 0 && division) {
+                    // Try to match only division
+                    filteredBlogs = nofilter.filter(blog =>
+                        blog.divission === division
+                    );
+                }
+
+                if (filteredBlogs.length === 0) {
+                    // If no filter is applied or no matching found, show all
+                    filteredBlogs = nofilter;
+                }
+
+                setBlogs(filteredBlogs);
             })
             .catch(error => {
                 console.log(error);
-
             });
-    }, []);
+    }, [path, division, district, upazila]);
+
 
     return (
         <div>
@@ -49,6 +80,7 @@ const Leftformat = ({ path }) => {
                 ))}
 
             </div>
+
         </div>
     );
 };
