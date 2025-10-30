@@ -19,10 +19,10 @@ export default function Poll() {
   };
 
   return (
-    <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'}   rounded  p-2  mx-auto `}>
+    <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'}   rounded  py-1  mx-auto `}>
       {/* Header */}
       <div className="flex justify-between items-center border-b border-gray-200 pb-2">
-        <h2 className="text-xl font-bold   relative inline-block">
+        <h2 className="text-2xl font-bold   relative inline-block">
           আজকের প্রশ্ন
 
         </h2>
@@ -32,7 +32,7 @@ export default function Poll() {
       </div>
 
       {/* Question */}
-      <p className="mt-4  text-sm ">
+      <p className="mt-4  text-lg  text-justify  leading-tight">
         নির্বাচন নিয়ে অনেক ষড়যন্ত্র হচ্ছে। বিএনপির কেন্দ্রীয় কমিটির সদস্য ও সাবেক উপমন্ত্রী এম রুহুল কুদ্দুস তালুকদারের দূর্ণীতির এই বক্তব্যের সঙ্গে আপনি কি একমত?
       </p>
 

@@ -1,138 +1,210 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Calendar, ChevronDown, Languages, Menu, Search, Sun } from 'lucide-react';
-import { ThemeContext } from '../hooks/ThemeContext';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import {
+    Calendar,
+    ChevronDown,
+    Globe,
+    Menu,
+    Search,
+    Sun,
+    X,
+    Moon,
+    Linkedin,
+    MessageCircle,
+    Share2,
+} from "lucide-react";
+import { ThemeContext } from "../hooks/ThemeContext";
+import {
+    Facebook,
+    Twitter,
+    Instagram,
+    Youtube,
+} from "lucide-react";
+import banglareports from "../assets/navbar/banglareports.png";
+const NAV_ITEMS = [
+    "সর্বশেষ",
+    "বাংলাদেশ",
+    "বিশ্ব",
+    "স্বাস্থ্য",
+    "ধর্ম",
+    "শিক্ষা",
+    "বাণিজ্য",
+    "তথ্যপ্রযুক্তি",
+    "ভ্রমণ",
+    "বিনোদন",
+    "বিবিধ",
+    "মতামত",
+    "বিজ্ঞান",
+    "খেলা",
+];
+
+const NavLink = ({ children }) => (
+    <a
+        href="#"
+        className="text-[var(--primary-text-color)] hover:text-red-600 transition duration-150 px-3 py-2 text-lg font-semibold whitespace-nowrap border-b-2 border-transparent hover:border-red-600"
+    >
+        {children}
+    </a>
+);
+
+const MobileLink = ({ children, onClick }) => (
+    <a
+        href="#"
+        onClick={onClick}
+        className="block px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-red-600 border-b border-gray-200"
+    >
+        {children}
+    </a>
+);
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [search, setSearch] = useState(false)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [todayBn, setTodayBn] = useState("");
     const { theme, toggleTheme } = useContext(ThemeContext);
+    const searchRef = useRef(null);
 
-    const [todayBn, setTodayBn] = useState('');
+    const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
-
+    const shareLinks = {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+        twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`,
+        linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
+        whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(currentUrl)}`,
+    };
+    // Bangla Date
     useEffect(() => {
         const now = new Date();
-        const opts = {
-            weekday: 'long',  
-            day: 'numeric', 
-            month: 'long',  
-            year: 'numeric'  
-        };
-        // 'bn-BD' for Bangla (Bangladesh) locale
-        const formatted = now.toLocaleDateString('bn-BD', opts);
+        const formatted = now.toLocaleDateString("bn-BD", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        });
         setTodayBn(formatted);
     }, []);
-    const toggleMobileMenu = () => {
-        setIsOpen(!isOpen);
-    };
 
-    const closeMobileMenu = () => {
-        setIsOpen(false);
-    };
+    // Close search on click outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setSearchOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
-        <div>
-            {/* Top Section with Date and Logo */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4 relative">
-                <span className="">
-                    ঢাকা, {todayBn}
-                </span>
+        <div className="w-full   border-b border-gray-200">
+            {/* Top Section */}
+            <div className="max-w-7xl mx-auto flex justify-between items-center  px-2 py-3">
 
-                <a href='/' className="text-4xl font-bold  ">NEWS 71</a>
+                <a href="/" className=" ">
+                    <img src={banglareports} className="w-full h-14" alt="Bangla Reports" />
+                </a>
+                <span className="text-lg text-gray-600">ঢাকা, {todayBn}</span>
 
-
-
-                {search && <div className="absolute top-18 left-1/2 w-1/3   rounded-lg bg-blue-50 z-20 flex justify-center items-center">
-                    <input type="text" placeholder='Search...' className='border border-blue-300 w-full rounded-lg p-2' />
-                </div>
-                }
-                <div className="flex gap-4">
-                    <Search onClick={() => setSearch(true)} className="" size={24} />
-                    <Languages className="" size={24} />
-                    <button
-                        onClick={toggleTheme}
-                        className="
-    relative inline-flex items-center h-6 w-12
-    bg-gray-200 dark:bg-gray-700
-    rounded-full px-1
-    transition-colors duration-300
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-  "
-                    >
-                        {/* Moon icon (left) */}
-                        <span className="absolute left-1 text-xs text-gray-600 dark:text-gray-300">
-                            🌙
-                        </span>
-
-                        {/* Sun icon (right) */}
-                        <span className="absolute right-1 text-xs text-gray-600 dark:text-gray-300">
-                            ☀️
-                        </span>
-
-                        {/* Sliding thumb */}
-                        <span
-                            className={`
-      inline-block w-4 h-4 bg-white rounded-full shadow
-      transform transition-transform duration-300
-      ${theme === 'light' ? 'translate-x-0' : 'translate-x-6'}
-    `}
-                        />
-                    </button>
-
-                </div>
-            </div>
-
-            {/* Navigation Menu */}
-            <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-blue-100'}  h-12`}>
-                <nav className="max-w-7xl mx-auto flex h-full justify-between items-center">
-                    {/* Desktop Menu */}
-                    <ul className="hidden font-medium border-r py-2 border-gray-300 lg:flex space-x-6 w-full justify-between">
-                        <li className='flex '><a href="/" className=" h-full    hover:text-blue-600 transition">সর্বশেষ </a> </li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">বাংলাদেশ</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">বিশ্ব</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">খেলা</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">বাণিজ্য</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">ইসলামী জীবন</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">জীবনযাপন</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">তথ্যপ্রযুক্তি
-
-                        </a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">ভ্রমণ
-
-                        </a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">বিবিধ</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">ভিডিও</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">বিনোদন</a></li>
-                        <li><a href="/" className=" h-full    hover:text-blue-600 transition">পত্রিকা</a></li>
-                    </ul>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="lg:hidden text-gray-600"
-                        onClick={toggleMobileMenu}
-                        aria-label="Toggle menu"
-                    >
-                        <Menu size={24} className="" />
-                    </button>
-                </nav>
-
-                {/* Mobile Menu */}
-                {isOpen && (
-                    <div className="lg:hidden">
-                        <ul className="space-y-4 p-4">
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">সরবরাহ</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">বাংলাদেশ</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">বিশ্ব</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">খেলা</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">বাণিজ্য</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">ইসলামী জীবন</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">জীবনযাপন</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">ভিডিও</a></li>
-                            <li><a href="/" onClick={closeMobileMenu} className="text-gray-700 hover:text-blue-600 transition">পত্রিকা</a></li>
-                        </ul>
+                <div className="hidden lg:flex gap-2 ">
+                    <div className="flex gap-1">
+                        <Share2 size={16} className="text-slate-500" />
+                        <p className="text-sm text-slate-600">শেয়ার করুন:</p>
                     </div>
-                )}
+                    {/* Social Icons */}
+                    <div className="flex gap-3">
+                        <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:scale-110 transition-transform">
+                            <Facebook size={18} />
+                        </a>
+                        <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-sky-500 hover:scale-110 transition-transform">
+                            <Twitter size={18} />
+                        </a>
+                        <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:scale-110 transition-transform">
+                            <Linkedin size={18} />
+                        </a>
+                        <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:scale-110 transition-transform">
+                            <MessageCircle size={18} />
+                        </a>
+                    </div>
+                </div>
             </div>
+
+            {/* Main Navbar */}
+            <header className="  border border-gray-300  transition">
+                <div className="max-w-7xl mx-auto flex  justify-between items-center  h-14">
+                    {/* Desktop Nav */}
+                    <nav className="hidden   lg:flex space-x-3 xl:space-x-4">
+                        {NAV_ITEMS.map((item, i) => (
+                            <NavLink key={i}>{item}</NavLink>
+                        ))}
+                    </nav>
+
+                    {/* Right Icons */}
+                    <div className="flex items-center mx-auto lg:mx-0 space-x-3">
+                        {/* Search */}
+                        <div ref={searchRef} className="relative bg-red-50 text-[var(--primary-color)] rounded-md">
+                            <button
+                                onClick={() => setSearchOpen(!searchOpen)}
+                                className="p-2 text-gray-700 hover:text-red-600 transition rounded-md"
+                            >
+                                <Search size={22} />
+                            </button>
+                            {searchOpen && (
+                                <div className="absolute top-10 right-0 w-64 sm:w-72 bg-white border border-gray-200 rounded-md shadow-lg p-2 z-20">
+                                    <input
+                                        type="text"
+                                        placeholder="Search news..."
+                                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Language Selector */}
+                        <div className="relative bg-red-50 text-[var(--primary-color)] rounded-md">
+                            <button className="flex items-center px-3 py-2 font-semibold hover:bg-red-100 rounded-md space-x-1">
+                                <Globe size={18} />
+                                <span className="hidden sm:inline text-sm">Eng</span>
+                                <ChevronDown size={16} />
+                            </button>
+                        </div>
+
+                        {/* Theme Toggle */}
+                        <button
+                            onClick={toggleTheme}
+                            className="relative flex items-center justify-center w-10 h-10 bg-gray-100   rounded-full transition"
+                            aria-label="Toggle Theme"
+                        >
+                            {theme === "light" ? (
+                                <Moon size={18} className="text-gray-600" />
+                            ) : (
+                                <Sun size={18} className="text-yellow-400" />
+                            )}
+                        </button>
+
+                        {/* Mobile Menu */}
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="lg:hidden p-2 text-gray-700 hover:text-red-600 transition"
+                            aria-label="Toggle menu"
+                        >
+                            {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Mobile Nav */}
+                <div
+                    className={`lg:hidden transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+                        }`}
+                >
+                    <div className="border-t border-gray-200    ">
+                        {NAV_ITEMS.map((item, i) => (
+                            <MobileLink key={i} onClick={() => setIsMobileMenuOpen(false)}>
+                                {item}
+                            </MobileLink>
+                        ))}
+                    </div>
+                </div>
+            </header>
         </div>
     );
 };

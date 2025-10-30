@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // import { useNavigate, useParams } from 'react-router';
 import { useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import axios from 'axios';
-import { Clock } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Share2, MessageCircle } from 'lucide-react';
+import { ThemeContext } from '../hooks/ThemeContext';
+import Morenews from './Morenews';
 
 const BlogDetails = () => {
     const { id } = useParams();
@@ -12,6 +14,16 @@ const BlogDetails = () => {
     const [blog, setBlog] = useState(null);
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { theme } = useContext(ThemeContext);
+
+    const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+
+    const shareLinks = {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+        twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(blog?.title || "")}`,
+        linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
+        whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(blog?.title + " " + currentUrl)}`,
+    };
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -36,79 +48,173 @@ const BlogDetails = () => {
 
 
     useEffect(() => {
-        axios.get('http://localhost:5000/allnews')
-            .then(response => {
-                // setPosts(response.data.slice(0, 12));
-                setBlogs(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
+        const fetchRelatedBlogs = async () => {
+            if (!blog?.category) return; // wait until blog is loaded
+
+            setLoading(true);
+            try {
+                const response = await axios.get('http://localhost:5000/allnews');
+                // Filter: same category, but not the same blog
+                const related = response.data.filter(
+                    (b) => b.category === blog.category && b._id !== blog._id
+                );
+                setBlogs(related);
+            } catch (error) {
                 console.log(error);
+            } finally {
                 setLoading(false);
-            });
-    }, []);
+            }
+        };
+
+        fetchRelatedBlogs();
+    }, [blog]);
 
 
 
     return (
-        <div className='bg-blue-50 pb-10 min-h-screen'>
+        <div className=' pb-10 min-h-screen'>
             <div className='max-w-7xl mx-auto'>
                 <div className='flex gap-4 pt-4'>
-                    <div className="w-[20%] md:w-[30%] border h-full border-gray-200 bg-white rounded-xl p-4 hidden md:flex flex-col shadow-sm">
-                        {blogs ? (
-                            blogs.slice(0, 4).map((blog) => (
-                                <a
-                                    key={blog._id}
-                                    href={`/product/${blog._id}`}
 
-                                    className="w-full flex items-center gap-4 p-3 mb-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-                                >
-                                    <div className="w-[20%] aspect-square flex items-center justify-center overflow-hidden rounded">
-                                        <img
-                                            src={blog.img}
-                                            alt={blog.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                    <div className="w-[70%] truncate">
-                                        <span className="font-medium text-gray-900">{blog.title}</span>
-                                    </div>
-                                </a>
-                            ))
-                        ) : (
-                            <Skeleton height={100} count={3} />
-                        )}
+                    <div className="w-[20%] md:w-[30%]   h-full  sticky top-4 hidden md:flex flex-col shadow-sm">
+                        <h2 className='text-xl mb-2 border-b-1 p-2 border-dotted     font-semibold'>এ সম্পর্কিত খবর</h2>
+
+                        <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded`}>
+                            {loading ? (
+                                <div className="p-3">
+                                    <Skeleton height={100} count={5} />
+                                </div>
+                            ) : blogs && blogs.length > 0 ? (
+                                blogs.slice(1, 6).map((blog) => (
+                                    <a key={blog._id} href={`/product/${blog._id}`}
+                                        className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
+                                        <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                                            <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
+                                                <img
+                                                    src={blog.img}
+                                                    alt="news"
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => (e.target.src = "https://placehold.co/100x100?text=Error")}
+                                                />
+                                            </div>
+                                            <p className=" text-lg   font-semibold text-[var(--primary-text-color)] leading-snug">
+                                                {blog.title.slice(0, 80)}{blog.title.length > 50 ? '...' : ''}
+                                            </p>
+                                        </div>
+                                    </a>
+                                ))
+                            ) : (
+                                <p className="text-center text-gray-500 py-4">No related news found.</p>
+                            )}
+                        </div>
                     </div>
 
 
-                    <div className='w-full  md:w-[60%] border border-gray-300 bg-white rounded h-auto px-4 md:px-2'>
+                    <div className="w-full md:w-[60%]   border border-gray-200 rounded p-2  ">
                         {loading || !blog ? (
                             <>
-                                <Skeleton height={30} width={'80%'} />
-                                <Skeleton height={20} width={'50%'} className='mt-2' />
-                                <Skeleton height={300} className='mt-4' />
-                                <Skeleton height={100} className='mt-4' />
+                                <Skeleton height={36} width={'80%'} />
+                                <Skeleton height={20} width={'50%'} className="mt-3" />
+                                <Skeleton height={320} className="mt-6" />
+                                <Skeleton height={140} className="mt-6" />
                             </>
                         ) : (
                             <>
-                                <p className='font-bold text-2xl mt-2 tracking-wide'>{blog.title}</p>
-                                <p className='mt-2 flex gap-1 text-xs text-slate-500'>
-                                    <Clock size={15} />
-                                    {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',
-                                    })}
-                                </p>
+                                {/* Title */}
+                                <h1 className="font-semibold text-2xl md:text-4xl text-gray-800 leading-snug tracking-wide mt-2">
+                                    {blog.title}
+                                </h1>
 
-                                <img className='w-full rounded mt-4' src={blog.img} alt={blog.title} />
-                                <div className='text-justify pt-10' dangerouslySetInnerHTML={{ __html: blog.description }} />
+                                {/* Category */}
+                                <span className="inline-block  text-white bg-[var(--primary-color)] px-3 py-0 rounded-full mt-1">
+                                    {blog.category}
+                                </span>
+
+                                <div className='flex justify-between border-b pb-2 border-gray-300'>
+                                    {/* Date */}
+                                    <p className="mt-3 flex items-center gap-1   text-slate-500">
+                                        <span className="font-medium text-slate-600">প্রকাশঃ</span>
+                                        {new Date(blog.createdAt).toLocaleDateString('bn-BD', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                        })}
+                                    </p>
+
+                                    {/* Social Share */}
+                                    <div className="flex items-center gap-3 mt-4">
+                                        <Share2 size={16} className="text-slate-500" />
+                                        <p className="text-sm text-slate-600">শেয়ার করুন:</p>
+
+                                        <div className="flex gap-3">
+                                            <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:scale-110 transition-transform">
+                                                <Facebook size={18} />
+                                            </a>
+                                            <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-sky-500 hover:scale-110 transition-transform">
+                                                <Twitter size={18} />
+                                            </a>
+                                            <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:scale-110 transition-transform">
+                                                <Linkedin size={18} />
+                                            </a>
+                                            <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:scale-110 transition-transform">
+                                                <MessageCircle size={18} />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Image */}
+                                <div className="mt-3 overflow-hidden rounded">
+                                    <img
+                                        className="w-full h-auto rounded object-cover transition-transform duration-500 hover:scale-105"
+                                        src={blog.img}
+                                        alt={blog.title}
+                                    />
+                                </div>
+                                <p className='py-1 flex  justify-end'>(ছবিঃ সংগৃহিত)</p>
+
+                                {/* Description */}
+                                <div
+                                    className="text-justify text-lg text-[var(--primary-text-color)] leading-relaxed pt-8 prose max-w-none prose-p:mb-4 prose-img:rounded-lg"
+                                    dangerouslySetInnerHTML={{ __html: blog.description }}
+                                />
                             </>
                         )}
+                    </div>
+
+                    <div className='w-[20%]   flex-col hidden md:flex     h-[400px]'>
+
+                        <h2 className='text-xl mb-2 border-b-1 p-2 border-dotted     font-semibold'>সর্বশেষ</h2>
+
+                        <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded `}>
+                            {loading ? (
+                                <Skeleton height={100} count={5} />
+                            ) : (Array.isArray(blogs) && blogs.slice(0, 4).map((blog) => (
+                                <a key={blog._id} href={`/product/${blog._id}`}
+                                    className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
+                                    <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                                        <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
+                                            <img
+                                                src={blog.img}
+                                                alt="news"
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => (e.target.src = "https://placehold.co/100x100?text=Error")}
+                                            />
+                                        </div>
+                                        <p className=" text-lg   font-semibold text-[var(--primary-text-color)] leading-snug">
+                                            {blog.title.slice(0, 80)}{blog.title.length > 50 ? '...' : ''}
+                                        </p>
+                                    </div>
+                                </a>
+                            )))}
+                        </div>
+
+
+
 
                     </div>
-                    <div className='w-[20%] border border-gray-300 flex-col hidden md:flex bg-white rounded h-[400px]'></div>
                 </div>
+                <Morenews />
             </div>
         </div>
     );

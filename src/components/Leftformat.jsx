@@ -52,31 +52,28 @@ const Leftformat = ({ path, division, district, upazila }) => {
 
     return (
         <div>
-            <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'}  p-3 shadow-md rounded-sm mt-1`}>
-                <h2 className='text-1xl mb-3   font-bold border-b-2 border-dotted pb-1'>Random Blog</h2>
+            <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'}     rounded`}>
 
-                {Array.isArray(blogs) && blogs.slice(0, 6).map((blog) => (
+                {Array.isArray(blogs) && blogs.slice(0, 5).map((blog) => (
                     <a key={blog._id} href={`/product/${blog._id}`}
-                        className="flex  p-3 h-auto      cursor-pointer  lg:mb-1 lg:flex-row    rounded shadow">
-                        <img src={blog.img} alt=""
-                            className="inline-block rounded object-cover  w-14 h-14" />
-                        <div className="flex flex-col items-start ps-2">
-                            <p className='hover:text-green-600 font-medium    leading-6 duration-200'>
-                                {blog.title
-                                    ? `${blog.title.split(" ").slice(0, 3).join(" ")}…`
-                                    : "Untitled…"}
+                        className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
+                        <div className="flex items-start p-3 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                            <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
+                                <img
+                                    src={blog.img}
+                                    alt="news"
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => (e.target.src = "https://placehold.co/100x100?text=Error")}
+                                />
+                            </div>
+                            <p className=" text-lg   font-semibold text-[var(--primary-text-color)] leading-snug">
+                                {blog.title.slice(0, 80)}{blog.title.length > 50 ? '...' : ''}
                             </p>
-                            {/* <p className='mt-2 flex gap-1 text-xs  '>
-                                            <Clock size={15} />
-                                            {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric',
-                                            })}
-                                        </p> */}
-
                         </div>
+
+                        {/* </div> */}
                     </a>
+
                 ))}
 
             </div>

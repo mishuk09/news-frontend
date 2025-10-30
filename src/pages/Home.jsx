@@ -5,7 +5,103 @@ import { Pagination, Stack } from '@mui/material';
 import axios from 'axios';
 import { ThemeContext } from '../hooks/ThemeContext';
 import Poll from '../utills/Poll';
+import PrayerTimeCard from '../utills/PrayerTimeCard';
 
+
+const DescriptionPreview = ({ description }) => {
+
+    const getShortText = (html) => {
+        if (!html) return "";
+
+        // 1️⃣ Remove all HTML tags
+        let text = html.replace(/<[^>]*>/g, " ");
+
+        // 2️⃣ Replace HTML entities like &nbsp; &amp; &quot;
+        text = text
+            .replace(/&nbsp;/g, " ")
+            .replace(/&amp;/g, "&")
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">");
+
+        // 3️⃣ Remove extra spaces/newlines/tabs
+        const cleanText = text.replace(/\s+/g, " ").trim();
+
+        // 4️⃣ Limit to 50 words
+        const words = cleanText.split(" ");
+        const shortText =
+            words.length > 40 ? words.slice(0, 40).join(" ") + "..." : cleanText;
+
+        return shortText;
+    };
+
+
+    return (
+        <p className="text-lg text-gray-600 text-justify">
+            {getShortText(description)}
+        </p>
+    );
+};
+
+// --- Helper Component to format time ---
+const NewsTime = ({ createdAt }) => {
+    const getTimeAgo = (dateString) => {
+        if (!dateString) return "সময় নেই";
+
+        const now = new Date();
+        const date = new Date(dateString);
+        const diffMs = now - date;
+
+        const diffSeconds = Math.floor(diffMs / 1000);
+        const diffMinutes = Math.floor(diffSeconds / 60);
+        const diffHours = Math.floor(diffMinutes / 60);
+        const diffDays = Math.floor(diffHours / 24);
+
+        if (diffSeconds < 60) return `${diffSeconds} সেকেন্ড আগে`;
+        if (diffMinutes < 60) return `${diffMinutes} মিনিট আগে`;
+        if (diffHours < 24) return `${diffHours} ঘণ্টা আগে`;
+        return `${diffDays} দিন আগে`;
+    };
+
+    return <p className="text-base  absolute bottom-1 right-1">{getTimeAgo(createdAt)}</p>;
+};
+
+
+
+const FeaturedCard = ({ title, img, createdAt }) => {
+    const imageUrl =
+        Array.isArray(img) && img.length > 0
+            ? img[0]
+            : "https://placehold.co/400x250?text=No+Image";
+
+    return (
+        <div className="relative flex flex-col bg-white rounded overflow-hidden border border-gray-100  ">
+            {/* Image Section */}
+            <div className="relative w-full h-40 overflow-hidden">
+                <img
+                    src={imageUrl}
+                    alt={title}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    onError={(e) =>
+                    (e.target.src =
+                        "https://placehold.co/400x250/F3F4F6/1F2937?text=Placeholder")
+                    }
+                />
+            </div>
+
+            {/* Content Section */}
+            <div className="flex flex-col flex-1 p-2">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 hover:text-red-600 transition-colors duration-200 leading-snug line-clamp-2">
+                    {title}
+                </h3>
+                <div className="mt-2 text-sm text-gray-500">
+                    <NewsTime createdAt={createdAt} />
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const Home = () => {
     const { theme } = useContext(ThemeContext);
@@ -51,15 +147,6 @@ const Home = () => {
         instagram: '#' // Instagram doesn't support direct URL sharing
     };
 
-    // const handlePageChange = (event, value) => {
-    //     setCurrentPage(value);
-    // };
-
-    // const startIndex = (currentPage - 1) * itemsPerPageSection1;
-    // const endIndex = startIndex + itemsPerPageSection1;
-    // const displayedBlogs = blogs && blogs.slice(startIndex, endIndex);
-    // const displayedBlogs = blogs && Array.isArray(blogs) ? blogs.slice(startIndex, endIndex) : [];
-
 
 
 
@@ -81,80 +168,39 @@ const Home = () => {
             <div className='max-w-7xl mx-auto'>
                 <div className='flex  gap-2 w-full pt-6'>
                     <div className=' hidden md:block  w-[25%] px-2 h-full rounded'>
-                        <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}  p-3 mt-0 shadow-md rounded-sm`}>
-                            <h2 className='text-1xl font-nunito font-bold border-b-2 border-dotted pb-1 mb-2'>Category</h2>
-                            <ul className='overflow-hidden category-scrollbar max-h-[205px] overflow-y-auto'>
-                                {categories.map(({ category, count }) => (
-                                    <li>
-                                        <div key={blogs.name} className='border-b cursor-pointer hover:text-green-700  border-dotted mt-1 border-slate-900 font-nunito font-bold text-sm'>
-                                            <div>
-                                                <div className='justify-between flex items-center text-center'>
-                                                    <p className='flex  '>
+                        <h2 className='text-2xl mb-2 border-b-2 border-dotted    font-bold'>সর্বাধিক পঠিত</h2>
 
-                                                        <List className='me-2' />
-                                                        {category}
-                                                    </p>
-                                                    <p className='me-2'> ({count})</p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-
-                        </div>
-                        <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}  p-3 shadow-md rounded-sm mt-2`}>
-                            <h2 className='text-1xl mb-3   font-bold border-b-2 border-dotted pb-1'>Random Blog</h2>
-
-                            {Array.isArray(blogs) && blogs.slice(0, 5).map((blog) => (
+                        <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded `}>
+                            {Array.isArray(blogs) && blogs.slice(8, 13).map((blog) => (
                                 <a key={blog._id} href={`/product/${blog._id}`}
-                                    className="flex  p-3 h-auto      cursor-pointer  lg:mb-1 lg:flex-row    rounded shadow">
-                                    <img src={blog.img} alt=""
-                                        className="inline-block rounded object-cover  w-14 h-14" />
-                                    <div className="flex flex-col items-start ps-2">
-                                        <p className='hover:text-green-600 font-medium    leading-6 duration-200'>
-                                            {blog.title
-                                                ? `${blog.title.split(" ").slice(0, 3).join(" ")}…`
-                                                : "Untitled…"}
+                                    className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
+                                    <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                                        <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
+                                            <img
+                                                src={blog.img}
+                                                alt="news"
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => (e.target.src = "https://placehold.co/100x100?text=Error")}
+                                            />
+                                        </div>
+                                        <p className=" text-lg   font-semibold text-[var(--primary-text-color)] leading-snug">
+                                            {blog.title.slice(0, 80)}{blog.title.length > 50 ? '...' : ''}
                                         </p>
-                                        {/* <p className='mt-2 flex gap-1 text-xs  '>
-                                            <Clock size={15} />
-                                            {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric',
-                                            })}
-                                        </p> */}
-
                                     </div>
                                 </a>
                             ))}
-
                         </div>
-                        <div className='mt-2 grid grid-cols-1 gap-2 relative'>
 
-                            {
-                                blogs && blogs.slice(0, 2).map((blog) => (
-                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? ' dark-bg-color cursor-pointer flex-col gap-3  h-[220px]   shadow rounded-sm ' : 'cursor-pointer flex-col gap-3  h-[220px]   shadow rounded-sm '} `}>
-                                        <img src={blog.img} alt="" className="inline-block  rounded-t h-[150px] w-full object-cover" />
-                                        <div className="flex flex-col items-start p-1">
 
-                                            <p className="mb-1 leading-6   font-medium   hover:text-green-600 duration-200  ">  {blog.title.split(' ').slice(0, 5).join(' ')}…</p>
 
-                                            <p className='mt-2 flex gap-1 text-xs '>
-                                                <Clock size={15} />
-                                                {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric',
-                                                })}
-                                            </p>
-                                        </div>
-                                    </a>
-
+                        <section className="mb-12 mt-3">
+                            <div className="grid grid-cols-1  gap-3">
+                                {blogs && blogs.slice(3, 6).map((article, index) => (
+                                    <FeaturedCard key={index} {...article} />
                                 ))}
-                        </div>
+                            </div>
+                        </section>
+
 
                     </div>
 
@@ -162,95 +208,50 @@ const Home = () => {
                         <div className='h-full    relative rounded-sm'>
 
                             {Array.isArray(blogs) && blogs.slice(2, 3).map((blog) => (
-                                <a className='cursor-pointer'
-                                    href={`/product/${blog._id}`}
-                                    key={blog.id}>
-                                    <div className='relative'>
-                                        <img className='w-full rounded-sm h-[350px]' src={blog.img} alt="" />
-
-                                        {/* Add the gradient overlay using ::before pseudo-element */}
-                                        <div className='absolute inset-0 bg-gradient-to-b from-transparent to-black'></div>
-                                    </div>
-
-                                    <div className='absolute text-white ps-3 bottom-3'>
-
-                                        <p className='mt-2 font-bold hover:text-green-600 duration-200  font-sans text-4xl'> {blog.title}...</p>
-                                        <p className='mt-2 flex gap-1 text-xs '>
-                                            <Clock size={15} />
-                                            {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric',
-                                            })}
-                                        </p>
-
-                                    </div>
-                                </a>
-                            ))
-                            }
-                        </div>
-                        <div className=' grid grid-cols-2 gap-2 mt-2 relative'>
-
-                            {Array.isArray(blogs) && blogs.slice(1, 3).map((blog) => (
-                               
-                                <a className='cursor-pointer'
-                                    href={`/product/${blog._id}`}
-                                    key={blog.id}>
-                                    <div className='relative'>
-                                        <img className='w-full rounded-sm h-[150px] ' src={blog.img} alt="" />
-
-                                        {/* Add the gradient overlay using ::before pseudo-element */}
-                                        <div className='absolute inset-0 bg-gradient-to-b from-transparent to-black'></div>
-                                    </div>
-
-                                    <div className='absolute text-white ps-3 bottom-3'>
-
-                                        <p className='mt-2 font-bold hover:text-green-700 duration-200  font-sans '> {blog.title.split(' ').slice(0, 5).join(' ')}…</p>
-                                        <p className='mt-2 flex gap-1 text-xs '>
-                                            <Clock size={15} />
-                                            {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric',
-                                            })}
-                                        </p>
-
-                                    </div>
-                                </a>
-                            ))
-                            }
-                        </div>
 
 
-                        <div className='mt-8 grid grid-cols-2 gap-2 relative'>
-
-                            {
-                                blogs && blogs.slice(0,6).map((blog) => (
-                                    <a key={blog._id} href={`/product/${blog._id}`} className={`flex${theme === 'dark' ? 'dark-bg-color flex-col gap-3 ' : 'cursor-pointer flex-col gap-3     shadow rounded-sm '} `}>
-                                        <img src={blog.img} alt="" className="inline-block  rounded-t h-[150px] w-full object-cover" />
-                                        <div className="flex flex-col items-start p-1">
-
-                                            <p className="mb-1 leading-6   font-medium   hover:text-green-600 duration-200  ">   {blog.title
-                                                ? `${blog.title.split(" ").slice(0, 5).join(" ")}…`
-                                                : "Untitled…"} </p>
-
-                                            <p className='mt-2 flex gap-1 text-xs '>
-                                                <Clock size={15} />
-                                                {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric',
-                                                })}
-                                            </p>
+                                <a key={blog._id} href={`/product/${blog._id}`} className="lg:col-span-2 cursor-pointer">
+                                    <div className="bg-white rounded overflow-hidden  border border-gray-200">
+                                        <div className="relative aspect-video bg-gray-100">
+                                            <img
+                                                src={blog.img}
+                                                alt="Main news"
+                                                className="w-full h-full object-cover"
+                                            />
                                         </div>
-                                    </a>
+                                        <div className="p-2">
+                                            <h2 className="text-3xl font-bold  leading-tight hover:text-red-600 transition">
+                                                {blog.title}
+                                            </h2>
+                                            <DescriptionPreview description={blog.description} />
 
-                                ))}
+
+                                        </div>
+                                    </div>
+                                </a>
+                            ))
+                            }
+                        </div>
+
+
+
+                        <div className='mt-4   relative'>
+
+
+                            {/* Featured News */}
+                            <section className="mb-12">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                                    {blogs && blogs.slice(8, 14).map((article, index) => (
+                                        <FeaturedCard key={index} {...article} />
+                                    ))}
+                                </div>
+                            </section>
+
                         </div>
                     </div>
                     <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}  p-1 w-[25%] h-full hidden md:block   rounded`}>
 
-                        <div className='grid grid-cols-2 gap-2'>
+                        {/* <div className='grid grid-cols-2 gap-2'>
                             <a href={socialLinks.facebook} target='_blank' rel='noopener noreferrer' className='w-full flex cursor-pointer text-white items-center ps-2 h-10 rounded-sm bg-blue-600'>
                                 <div className='w-[20%]'><Facebook size={16} /></div>
                                 <div className='w-[70%]'>Facebook</div>
@@ -267,10 +268,10 @@ const Home = () => {
                                 <div className='w-[20%]'><Instagram size={16} /></div>
                                 <div className='w-[70%]'>Instagram</div>
                             </a>
-                        </div>
+                        </div> */}
 
-                        <div className='h-full mt-4 grid grid-rows-1 gap-2 relative rounded-sm'>
-                            <h2 className='text-2xl mb-2 border-b-2 border-dotted text-green-600   font-bold'>AI Blogs</h2>
+                        <div className='h-full  grid grid-rows-1 gap-2 relative rounded-sm'>
+                            <h2 className='text-2xl mb-1 border-b-1 border-dotted    font-bold'>সর্বশেষ</h2>
                             {Array.isArray(blogs) && blogs.slice(0, 1).map((blog) => (
                                 <a href={`/product/${blog._id}`} key={blog.id} className='cursor-pointer relative rounded-sm'>
                                     <div className='relative'>
@@ -294,27 +295,23 @@ const Home = () => {
                                 </a>
                             ))}
                         </div>
-                        <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}   mt-2 h-full rounded-sm`}>
-
-                            {Array.isArray(blogs) && blogs.slice(0, 3).map((blog) => (
-                                <a key={blog._id} href={`/product/${blog._id}`} className="flex p-3 h-auto       cursor-pointer    lg:mb-1 lg:flex-row   shadow ">
-                                    <img src={blog.img} alt=""
-                                        className="inline-block rounded object-cover  w-14 h-14" />
-                                    <div className="flex flex-col items-start   ps-2">
-                                        <p className='hover:text-green-600 font-medium    leading-6 duration-200'>
-                                            {blog.title.split(' ').slice(0, 4).join(' ')}…
+                        <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded `}>
+                            {Array.isArray(blogs) && blogs.slice(10, 13).map((blog) => (
+                                <a key={blog._id} href={`/product/${blog._id}`}
+                                    className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
+                                    <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                                        <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
+                                            <img
+                                                src={blog.img}
+                                                alt="news"
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => (e.target.src = "https://placehold.co/100x100?text=Error")}
+                                            />
+                                        </div>
+                                        <p className=" text-lg   font-semibold text-[var(--primary-text-color)] leading-snug">
+                                            {blog.title.slice(0, 80)}{blog.title.length > 50 ? '...' : ''}
                                         </p>
-                                        {/* <p className='mt-2 flex gap-1 text-xs '>
-                                            <Clock size={15} />
-                                            {new Date(blog.createdAt).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric',
-                                            })}
-                                        </p> */}
-
                                     </div>
-
                                 </a>
                             ))}
                         </div>
@@ -322,6 +319,9 @@ const Home = () => {
 
                             <Poll />
 
+                        </div>
+                        <div>
+                            <PrayerTimeCard />
                         </div>
 
                     </div>

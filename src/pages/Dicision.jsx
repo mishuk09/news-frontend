@@ -5,7 +5,7 @@ import ProtestComponent from '../components/ProtestComponent';
 
 const Dicision = () => {
     return (
-        <div className="p-4 mt-10 rounded-lg max-w-7xl mx-auto">
+        <div className="p-4  rounded-lg max-w-7xl mx-auto">
             <Headline name="মতামত" link={<Pen />} />
 
             <ProtestComponent />
