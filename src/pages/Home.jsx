@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { Facebook, Instagram, Linkedin, Clock, Twitter, List } from "lucide-react";
-
-import { Pagination, Stack } from '@mui/material';
 import axios from 'axios';
 import { ThemeContext } from '../hooks/ThemeContext';
 import Poll from '../utills/Poll';
 import PrayerTimeCard from '../utills/PrayerTimeCard';
+import Sidenews from '../utills/Sidenews';
 
 
 const DescriptionPreview = ({ description }) => {
@@ -136,19 +135,7 @@ const Home = () => {
                 console.log(error);
                 setLoading(false);
             });
-    }, [])
-
-
-
-    const socialLinks = {
-        facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
-        twitter: `https://twitter.com/intent/tweet?url=${shareUrl}`,
-        linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
-        instagram: '#' // Instagram doesn't support direct URL sharing
-    };
-
-
-
+    }, []);
 
     if (loading) {
         return (
@@ -159,35 +146,16 @@ const Home = () => {
         );
     }
 
-
-
-
-
     return (
         <div className=''>
             <div className='max-w-7xl mx-auto'>
-                <div className='flex  gap-2 w-full pt-6'>
+                <div className='flex  gap-2 w-full pt-4'>
                     <div className=' hidden md:block  w-[25%] px-2 h-full rounded'>
                         <h2 className='text-2xl mb-2 border-b-2 border-dotted    font-bold'>সর্বাধিক পঠিত</h2>
 
                         <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded `}>
                             {Array.isArray(blogs) && blogs.slice(8, 13).map((blog) => (
-                                <a key={blog._id} href={`/product/${blog._id}`}
-                                    className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
-                                    <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
-                                        <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
-                                            <img
-                                                src={blog.img}
-                                                alt="news"
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => (e.target.src = "https://placehold.co/100x100?text=Error")}
-                                            />
-                                        </div>
-                                        <p className=" text-lg   font-semibold text-[var(--primary-text-color)] leading-snug">
-                                            {blog.title.slice(0, 80)}{blog.title.length > 50 ? '...' : ''}
-                                        </p>
-                                    </div>
-                                </a>
+                                <Sidenews key={blog._id} blog={blog} />
                             ))}
                         </div>
 
@@ -250,26 +218,6 @@ const Home = () => {
                         </div>
                     </div>
                     <div className={`${theme === 'dark' ? ' dark-bg-color' : 'bg-white'}  p-1 w-[25%] h-full hidden md:block   rounded`}>
-
-                        {/* <div className='grid grid-cols-2 gap-2'>
-                            <a href={socialLinks.facebook} target='_blank' rel='noopener noreferrer' className='w-full flex cursor-pointer text-white items-center ps-2 h-10 rounded-sm bg-blue-600'>
-                                <div className='w-[20%]'><Facebook size={16} /></div>
-                                <div className='w-[70%]'>Facebook</div>
-                            </a>
-                            <a href={socialLinks.twitter} target='_blank' rel='noopener noreferrer' className='w-full flex cursor-pointer ps-2 h-10 rounded-sm text-white items-center bg-black'>
-                                <div className='w-[20%]'><Twitter size={16} /></div>
-                                <div className='w-[70%]'>Twitter</div>
-                            </a>
-                            <a href={socialLinks.linkedin} target='_blank' rel='noopener noreferrer' className='w-full flex cursor-pointer ps-2 h-10 rounded-sm text-white items-center bg-blue-600'>
-                                <div className='w-[20%]'><Linkedin size={16} /></div>
-                                <div className='w-[70%]'>Linkedin</div>
-                            </a>
-                            <a href={socialLinks.instagram} target='_blank' rel='noopener noreferrer' className='w-full flex cursor-pointer ps-2 h-10 rounded-sm text-white items-center bg-gradient-to-r from-pink-500 to-purple-500'>
-                                <div className='w-[20%]'><Instagram size={16} /></div>
-                                <div className='w-[70%]'>Instagram</div>
-                            </a>
-                        </div> */}
-
                         <div className='h-full  grid grid-rows-1 gap-2 relative rounded-sm'>
                             <h2 className='text-2xl mb-1 border-b-1 border-dotted    font-bold'>সর্বশেষ</h2>
                             {Array.isArray(blogs) && blogs.slice(0, 1).map((blog) => (
@@ -327,17 +275,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            {/* <div className='flex items-center text-center justify-center mt-14 pb-20'>
-                <Stack spacing={2}>
-                    <Pagination
-                        count={Math.ceil((blogs?.length || 0) / itemsPerPageSection1)}
-                        page={currentPage}
-                        onChange={handlePageChange}
-                        variant='outlined'
-                        shape='rounded'
-                    />
-                </Stack>
-            </div> */}
         </div >
     );
 };
