@@ -7,7 +7,7 @@ const NewsCard = ({ news }) => {
     return (
         <a
             href={`/news/${_id}`}
-            className="block bg-white rounded overflow-hidden hover:bg-gray-100 hover:shadow-lg transition-all duration-300 border border-gray-100"
+            className="block   rounded overflow-hidden hover:bg-gray-100 hover:shadow-lg transition-all duration-300 border border-gray-100"
         >
             <div className="relative w-full h-40">
                 {/* Image */}
@@ -37,7 +37,7 @@ const NewsCard = ({ news }) => {
                 <h2 className="text-lg font-semibold text-[var(--primary-text-color)] line-clamp-2 leading-tight">
                     {title}
                 </h2>
-                <p className=" text-gray-600 text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: description }}></p>
+                <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: description }}></p>
             </div>
         </a>
     );
