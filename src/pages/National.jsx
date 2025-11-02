@@ -54,10 +54,10 @@ const National = () => {
     };
 
     return (
-        <div className="p-4 mt-10 rounded-lg max-w-7xl mx-auto">
-            <Headline name="বাংলাদেশ"/>
+        <div className="p-2  rounded-lg max-w-7xl mx-auto">
+            <Headline name="বাংলাদেশ" link="/bangladesh" />
 
-            <div className={`${theme === 'dark' ? 'dark-bg-color mt-4 px-10 h-30 items-center border border-gray-300 rounded-2xl flex justify-between gap-4' : 'shadow bg-white mt-4 px-10 h-30 items-center border border-gray-300 rounded-2xl flex justify-between gap-4'}`}>
+            {/* <div className={`${theme === 'dark' ? 'dark-bg-color mt-4 px-10 h-30 items-center border border-gray-300 rounded-2xl flex justify-between gap-4' : 'shadow bg-white mt-4 px-10 h-30 items-center border border-gray-300 rounded-2xl flex justify-between gap-4'}`}>
                 <div className="flex flex-col">
                     <p className="font-semibold text-xl">জেলার খবর</p>
                 </div>
@@ -118,7 +118,7 @@ const National = () => {
                         অনুসন্ধান
                     </button>
                 </div>
-            </div>
+            </div> */}
             <NatonalFormat division={selectedDivision} district={selectedDistrict} upazila={selectedUpazila} />
         </div>
     );

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Leftformat from '../Leftformat';
 import RIghtformat from '../RIghtformat';
 import Mainformat from '../Mainformat';
 import useFetch from '../../hooks/useFetch';
+import Sidenews from '../../utills/Sidenews';
+import { ThemeContext } from '../../hooks/ThemeContext';
+import Skeleton from 'react-loading-skeleton';
+import NewsCard from '../../utills/NewsCard';
 
 // --- Helper Component to format time ---
 const NewsTime = ({ createdAt }) => {
@@ -51,14 +55,23 @@ const FeaturedCard = ({ title, img, createdAt }) => {
 };
 
 const NatonalFormat = ({ division, district, upazila }) => {
-    const { data: news, } = useFetch("http://localhost:5000/allnews/");
+    const { theme } = useContext(ThemeContext);
+
+    const { data: news, loading } = useFetch("http://localhost:5000/allnews/");
 
     return (
         <div>
             <div className='max-w-7xl mx-auto'>
                 <div className='flex  gap-2 w-full pt-4'>
-                    <div className=' hidden md:block  w-[25%]  h-full rounded'>
-                        <Leftformat path='allnews' division={division} district={district} upazila={upazila} />
+                    {/* <div className=' hidden md:block  w-[25%]  h-full rounded'>
+                        <Sidenews key={news._id} blog={news} />
+                    </div> */}
+                    <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} hidden md:block  w-[25%]  h-full rounded `}>
+                        {loading ? <Skeleton height={100} count={5} /> : (
+                            Array.isArray(news) && news.slice(8, 13).map((blog) => (
+                                <Sidenews scroll={true} maxHeight="500px" key={blog._id} blog={blog} />
+                            ))
+                        )}
                     </div>
 
                     <div className='  p-1  w-full md:w-[50%] h-full rounded relative'>
@@ -68,18 +81,21 @@ const NatonalFormat = ({ division, district, upazila }) => {
                         <Mainformat path='allnews' division={division} district={district} upazila={upazila} />
 
                     </div>
-                    <div className='   p-1 w-[25%] h-full hidden md:block   rounded'>
-
-
-                        <RIghtformat path='allnews' division={division} district={district} upazila={upazila} />
+                    <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} hidden md:block  w-[25%]  h-full rounded `}>
+                        {loading ? <Skeleton height={100} count={5} /> : (
+                            Array.isArray(news) && news.slice(8, 13).map((blog) => (
+                                <Sidenews scroll={true} maxHeight="500px" key={blog._id} blog={blog} />
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
             {/* Featured News */}
-            <section className="mb-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {news && news.slice(7, 11).map((article, index) => (
-                        <FeaturedCard key={index} {...article} />
+            <section className="mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {news && news.slice(8, 12).map((article, index) => (
+                        // <FeaturedCard key={index} {...article} />
+                        <NewsCard key={index} news={article} />
                     ))}
                 </div>
             </section>

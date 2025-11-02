@@ -1,45 +1,106 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { PenSquare } from "lucide-react";
+import { Link } from "react-router-dom"; // ✅ Add this
 
 const ProtestComponent = () => {
+    const API_URL = "http://127.0.0.1:5000/decision/";
+    const [decisions, setDecisions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch latest 5 data
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get(API_URL);
+                // Sort by createdAt (descending) if API provides timestamps
+                const sorted = res.data.sort(
+                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                );
+                setDecisions(sorted.slice(0, 5));
+            } catch (err) {
+                console.error("Error fetching data:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="text-center text-gray-500 mt-10">
+                Loading latest decisions...
+            </div>
+        );
+    }
+
+    if (decisions.length === 0) {
+        return (
+            <div className="text-center text-gray-500 mt-10">No decisions found.</div>
+        );
+    }
+
+    // First (latest) item for left card
+    const latest = decisions[0];
+    const others = decisions.slice(1);
+
     return (
-        <div className=" flex mt-10 gap-10 w-full">
-            {/* Left Card */}
-            <div className="bg-blue-50 w-[40%] relative p-6 border border-gray-300 rounded shadow-md col-span-2">
-                <div className="absolute left-[-30px]  bg-indigo-950 text-white px-4 py-3 inline-block  rounded mb-4 text-xl font-semibold w-full">
-                    বিক্ষোভের নামে লুটপাট নিতান্তই ছোটলোকি
+        <div className="flex mt-10 gap-10 w-full">
+            {/* LEFT CARD */}
+            <a
+                href={`/decision/${latest._id}`} // ✅ Makes left card clickable
+                className="bg-blue-50 w-[40%] relative p-6 border border-gray-300 rounded shadow-md col-span-2 hover:shadow-lg transition cursor-pointer block"
+            >
+                <div className="absolute left-[-30px] bg-indigo-950 text-white px-4 py-3 inline-block rounded mb-4 text-xl font-semibold w-full">
+                    {latest.title || "No title available"}
                 </div>
-                <p className= " text-lg text-gray-700 mb-4 pt-16 leading-relaxed text-justify ">
-                    ফিলিস্তিনের গাজায় ইসরায়েলের গণহত্যার প্রতিবাদে বিক্ষোভের সময় দেশের বিভিন্ন স্থানে দোকান,
-                    ব্যবসা প্রতিষ্ঠানে হামলা, ভাঙচুর ও লুটপাটের ঘটনা ঘটেছে। এই ঘটনায় ইমামত অন্তত ৪১ জনকে গ্রেফতার করেছে আইন-শৃঙ্খলা বাহিনী।
+                <p className="text-lg text-gray-700 mb-4 pt-16 line-clamp-5 leading-relaxed text-justify">
+                    {latest.description || "No description provided for this decision."}
                 </p>
                 <div className="flex items-center gap-3 mt-4">
                     <img
-                        src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSZNCunC5QDkqt7JpDJPot1h93-WkK5KVE_F5nKAXnPO9s7qKED2vex60ONRgodCvSmMS_32YwhsV-ufYtDkN5ftg"
-                        alt="Mizanur Rahman Azhari"
+                        src={
+                            latest.authorImage ||
+                            "https://via.placeholder.com/100x100.png?text=No+Image"
+                        }
+                        alt={latest.authorName || "Anonymous"}
                         className="w-14 h-14 rounded-full object-cover"
                     />
-                    <h3 className="text-gray-900 font-semibold">মিজানুর রহমান আজহারী</h3>
+                    <h3 className="text-gray-900 font-semibold">
+                        {latest.authorName || "Unknown Author"}
+                    </h3>
                 </div>
-            </div>
+            </a>
 
-            {/* Right List */}
+            {/* RIGHT LIST */}
             <div className="space-y-6 w-[60%]">
-                {[
-                    "বিশ্লেষণ বাংলাদেশের নদীতে চীনের সহায়তা: ভালো না মন্দ?",
-                    "মতামত: রেকর্ড রেমিট্যান্স দিলেন প্রবাসীরা, রাষ্ট্র ঋণদের কী",
-                    "বিশ্লেষণ এনসিপি: তারুণ্যের উথান, নাকি জাসদের ছায়া",
-                    "মতামত: প্রতিদিন রাতে আমি ওকে চুমু দিতাম, যেন এটা হয়"
-                ].map((item, index) => (
-                    <div key={index} className="flex items-start gap-3 border-b pb-2 border-gray-300">
-                        <PenSquare className=" shrink-0 rounded-full border border-gray-300 w-10 h-10 p-3" size={24} />
-                        <div>
-                            <h4 className="  text-2xl  font-semibold leading-snug hover:underline cursor-pointer">
-                                {item}
+                {others.map((item, index) => (
+                    <a
+                        href={`/decision/${item._id}`} // ✅ Makes each title clickable
+                        key={item._id || index}
+                        className="flex items-center gap-4 border-b pb-3 border-gray-300 hover:bg-gray-50 transition cursor-pointer"
+                    >
+                        {/* Author Image */}
+                        <img
+                            src={
+                                item.authorImage ||
+                                "https://via.placeholder.com/80x80.png?text=No+Image"
+                            }
+                            alt={item.authorName || "Unknown Author"}
+                            className="w-14 h-14 rounded-full object-cover border border-gray-300 shrink-0"
+                        />
+
+                        {/* Text Section */}
+                        <div className="flex-1">
+                            <h4 className="text-xl font-semibold leading-snug hover:underline text-gray-900">
+                                {item.title || "Untitled Decision"}
                             </h4>
-                            <p className="">নজরুল ইসলাম</p>
+                            <p className="text-gray-600 mt-1">
+                                {item.authorName || "Unknown Author"}
+                            </p>
                         </div>
-                    </div>
+                    </a>
                 ))}
             </div>
         </div>

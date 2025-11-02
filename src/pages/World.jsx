@@ -7,7 +7,7 @@ const World = () => {
         <>
             <div className='p-4 mt-10 rounded-lg max-w-7xl mx-auto'>
 
-                <Headline name='বিশ্ব' link={<WholeWord />} />
+                <Headline name='বিশ্ব' link='/world' />
                 <WorldMain />
             </div>
         </>

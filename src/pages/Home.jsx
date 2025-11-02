@@ -9,66 +9,7 @@ import Skeleton from 'react-loading-skeleton';
 import NewsCard from '../utills/NewsCard';
 import NewsTime from '../utills/NewsTime';
 
-
-// const DescriptionPreview = ({ description }) => {
-
-//     const getShortText = (html) => {
-//         if (!html) return "";
-
-//         // 1️⃣ Remove all HTML tags
-//         let text = html.replace(/<[^>]*>/g, " ");
-
-//         // 2️⃣ Replace HTML entities like &nbsp; &amp; &quot;
-//         text = text
-//             .replace(/&nbsp;/g, " ")
-//             .replace(/&amp;/g, "&")
-//             .replace(/&quot;/g, '"')
-//             .replace(/&#39;/g, "'")
-//             .replace(/&lt;/g, "<")
-//             .replace(/&gt;/g, ">");
-
-//         // 3️⃣ Remove extra spaces/newlines/tabs
-//         const cleanText = text.replace(/\s+/g, " ").trim();
-
-//         // 4️⃣ Limit to 50 words
-//         const words = cleanText.split(" ");
-//         const shortText =
-//             words.length > 40 ? words.slice(0, 40).join(" ") + "..." : cleanText;
-
-//         return shortText;
-//     };
-
-
-//     return (
-//         <p className="text-lg text-gray-600 text-justify">
-//             {getShortText(description)}
-//         </p>
-//     );
-// };
-
-// --- Helper Component to format time ---
-// const NewsTime = ({ createdAt }) => {
-//     const getTimeAgo = (dateString) => {
-//         if (!dateString) return "সময় নেই";
-
-//         const now = new Date();
-//         const date = new Date(dateString);
-//         const diffMs = now - date;
-
-//         const diffSeconds = Math.floor(diffMs / 1000);
-//         const diffMinutes = Math.floor(diffSeconds / 60);
-//         const diffHours = Math.floor(diffMinutes / 60);
-//         const diffDays = Math.floor(diffHours / 24);
-
-//         if (diffSeconds < 60) return `${diffSeconds} সেকেন্ড আগে`;
-//         if (diffMinutes < 60) return `${diffMinutes} মিনিট আগে`;
-//         if (diffHours < 24) return `${diffHours} ঘণ্টা আগে`;
-//         return `${diffDays} দিন আগে`;
-//     };
-
-//     return <p className="text-base  absolute bottom-1 right-1">{getTimeAgo(createdAt)}</p>;
-// };
-
+ 
 
 
 const FeaturedCard = ({ title, img, createdAt }) => {
