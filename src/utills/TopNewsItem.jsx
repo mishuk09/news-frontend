@@ -13,7 +13,7 @@ const TopNewsItem = ({ title, img, description }) => {
                 />
             </div>
             <div>
-                <p className=" text-sm sm:text-xl  line-clamp-2 font-semibold leading-snug hover:text-red-600 transition">
+                <p className=" text-sm sm:text-xl  line-clamp-2 font-semibold leading-snug  text-[var(--primary-text-color)] transition">
                   {title}
                 </p>
                 <p>
