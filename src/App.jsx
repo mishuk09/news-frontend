@@ -6,6 +6,7 @@ import ChildHome from "./pages/ChildHome"
 import Footer from "./pages/Footer"
 import ResultPool from "./components/PoolResult/ResultPool"
 import SingleDecision from "./pages/singleDecision"
+import LatestNews from "./components/LatestNews/LatestNews"
 
 
 function App() {
@@ -18,8 +19,11 @@ function App() {
       <Routes>
         <Route path='/' element={<ChildHome />} />
         <Route path='/pool-result' element={<ResultPool />} />
-        <Route path='/product/:id' element={<BlogDetails />} />
+        <Route path='/news/:id' element={<BlogDetails />} />
         <Route path='/decision/:id' element={<SingleDecision />} />
+
+        {/* Sub Section */}
+        <Route path='/latest-news' element={<LatestNews />} />
       </Routes>
 
       <Footer />

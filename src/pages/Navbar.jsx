@@ -61,6 +61,8 @@ const Navbar = () => {
     const [searchOpen, setSearchOpen] = useState(false);
     const [todayBn, setTodayBn] = useState("");
     const { theme, toggleTheme } = useContext(ThemeContext);
+    const [scrolled, setScrolled] = useState(false);
+
     const searchRef = useRef(null);
 
     const currentUrl = typeof window !== "undefined" ? window.location.href : "";
@@ -92,6 +94,13 @@ const Navbar = () => {
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 10);
+        window.addEventListener("scroll", onScroll);
+        return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
     return (

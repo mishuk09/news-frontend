@@ -2,17 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Headline from '../components/Headline';
 import { WholeWord } from 'lucide-react';
+import NewsTime from '../utills/NewsTime';
 
-// --- CATEGORY DEFINITIONS ---
-// Define the categories you want to display. These MUST exactly match the values in your database.
-const categories = ['তথ্যপ্রযুক্তি', 'জীবন যাপন', 'চাকরি', 'ধর্ম', 'স্বাস্থ্য', 'শিক্ষা', 'ইসলাম', 'বিনোদন'];
 
-// --- UTILITY FUNCTION FOR IMAGE URL ---
-/**
- * Safely extracts the first image URL from the news object's 'img' array.
- * @param {object} news The news article object from the database.
- * @returns {string} The first image URL or a fallback.
- */
 const getFirstImageUrl = (news) => {
     // Check if 'img' is an array and has at least one element
     if (Array.isArray(news.img) && news.img.length > 0) {
@@ -23,36 +15,14 @@ const getFirstImageUrl = (news) => {
 };
 
 
-
-const NewsTime = ({ createdAt }) => {
-    const getTimeAgo = (dateString) => {
-        if (!dateString) return "সময় নেই";
-
-        const now = new Date();
-        const date = new Date(dateString);
-        const diffMs = now - date;
-
-        const diffSeconds = Math.floor(diffMs / 1000);
-        const diffMinutes = Math.floor(diffSeconds / 60);
-        const diffHours = Math.floor(diffMinutes / 60);
-        const diffDays = Math.floor(diffHours / 24);
-
-        if (diffSeconds < 60) return `${diffSeconds} সেকেন্ড আগে`;
-        if (diffMinutes < 60) return `${diffMinutes} মিনিট আগে`;
-        if (diffHours < 24) return `${diffHours} ঘণ্টা আগে`;
-        return `${diffDays} দিন আগে`;
-    };
-
-    return <p className="text-xs mt-1">{getTimeAgo(createdAt)}</p>;
-};
-
 // --- COMPONENTS ---
 
 const NewsItemCard = ({ news }) => {
     const imageUrl = getFirstImageUrl(news);
 
     return (
-        <div className="flex h-26 space-x-3 group cursor-pointer hover:bg-red-50 p-2 -mx-2 rounded transition duration-200">
+        <a href={`/news/${news._id}`}
+            className="flex h-auto space-x-3 group cursor-pointer  border-b border-gray-300 p-2 -mx-2  ">
             <div className="flex-shrink-0">
                 <img
                     src={imageUrl} // Use the clean URL
@@ -62,36 +32,55 @@ const NewsItemCard = ({ news }) => {
                 />
             </div>
             <div className="flex flex-col  ">
-                <h3 className="text-lg font-medium leading-snug group-hover:text-red-700 transition duration-200">
-                    {news.title.slice(0, 60)}{news.title.length > 60 ? '...' : ''}
+                <h3 className="text-lg font-medium line-clamp-2 leading-snug group-hover:text-red-700 transition duration-200">
+                    {news.title}
                 </h3>
                 <NewsTime createdAt={news.createdAt} />
             </div>
-        </div>
+        </a>
     );
 };
 
 const FeatureItemCard = ({ news }) => {
+    const { _id, title, category, location, createdAt } = news;
+
     const imageUrl = getFirstImageUrl(news);
 
     return (
-        <div className="cursor-pointer group">
-            {/* New: Added a container div for better control over the image aspect ratio and overflow */}
-            <div className="w-full h-45 overflow-hidden rounded mb-3  group-hover:shadow-lg transition duration-300 bg-gray-200">
+        <a
+            href={`/news/${_id}`}
+            className="block  h-full rounded overflow-hidden hover:bg-gray-100 hover:shadow-lg transition-all duration-300 border border-gray-100"
+        >
+            <div className="relative w-full h-40">
+                {/* Image */}
                 <img
-                    src={imageUrl}
-                    alt={news.title}
-                    // Fix: Removed 'h-auto'. Set the image to take full width and height of its parent div.
-                    // 'object-cover' ensures it covers the area without stretching.
+                    src={imageUrl || "https://placehold.co/600x400?text=No+Image"}
+                    alt={title}
                     className="w-full h-full object-cover"
-                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/600x400/374151/ffffff?text=Feature+News"; }}
                 />
+
+                {/* 🔹 Full overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+
+                {/* 🔹 Bottom text content */}
+                <div className="flex justify-between absolute bottom-0 left-0 w-full p-2 text-sm text-white z-10">
+                    <p className="font-semibold  ">
+                        {category} {" "}
+                        <span className="text-[var(--primary-color)]">{location}</span>
+                    </p>
+                    <p className="  opacity-90">
+                        <NewsTime createdAt={createdAt} />
+                    </p>
+                </div>
             </div>
-            <h3 className="text-xl font-bold  leading-tight group-hover:text-red-700 transition duration-200">
-                {news.title}
-            </h3>
-            <p className="text-sm  mt-1 mb-4">{news.time || "সময় নেই"}</p>
-        </div>
+
+            {/* Text content */}
+            <div className="p-2">
+                <h2 className="text-lg font-semibold text-[var(--primary-text-color)] line-clamp-2 leading-tight">
+                    {title}
+                </h2>
+            </div>
+        </a>
     );
 };
 
@@ -130,7 +119,7 @@ const NewsSection = ({ category, newsItems }) => {
                 >
                     আরও দেখুন
                 </button>
-            </div> 
+            </div>
         </div>
     );
 };
@@ -184,13 +173,10 @@ export default function Allfeature() {
 
             {/* Intro Section */}
             <div className="mb-8">
-                {/* <h2 className="text-3xl sm:text-4xl font-extrabold  border-b-4 border-red-600 pb-2 mb-2 inline-block">
-                    অন্যান্য বিভাগীয় সংবাদ
-                </h2> */}
                 <Headline name='অন্যান্য বিভাগীয় সংবাদ' link={<WholeWord />} />
-                <p className="text-xl  mt-2">
+                {/* <p className="text-xl  mt-2">
                     আপনার পছন্দের বিভাগ থেকে খবর দেখুন। প্রতিটি বিভাগের জন্য একটি প্রধান খবর এবং তিনটি গুরুত্বপূর্ণ খবর নীচে দেখানো হলো।
-                </p>
+                </p> */}
             </div>
 
             {/* Loading/Error State */}

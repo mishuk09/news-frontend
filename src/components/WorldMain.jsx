@@ -92,8 +92,8 @@ const WorldMain = () => {
                         <ChevronRight className="w-5 h-5 text-red-600" />
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-2 rounded   ">
-                        {news.slice(1, 7).map((item, index) => (
-                            <TopNewsItem key={index} {...item} />
+                        {news.slice(1, 7).map((data, index) => (
+                            <TopNewsItem key={index} news={data} />
                         ))}
                     </div>
                 </section>
