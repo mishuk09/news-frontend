@@ -36,12 +36,14 @@
   --text-color: #111111;
   --primary-color: #B20808;
   --primary-text-color: #303030;
+  --hover-bg:#f4f4f4;
 }
 
 [data-theme="dark"] {
   --bg-color: #111111;
   --text-color: #f5f5f5;
   --primary-text-color: #ffffff;
+   --hover-bg:#2b2b2b;
 
 }
 

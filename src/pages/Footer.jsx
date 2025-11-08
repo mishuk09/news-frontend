@@ -1,5 +1,6 @@
 import { Copyright, Facebook, Instagram, Linkedin, MessageCircle, Twitter, Youtube } from "lucide-react";
 import banglareports from "../assets/navbar/banglareports.png";
+import { useLocation } from "react-router-dom";
 
 const NAV_ITEMS = [
     "সর্বশেষ",
@@ -25,7 +26,8 @@ const NavLink = ({ children }) => (
 
 const Footer = () => {
     const currentUrl = typeof window !== "undefined" ? window.location.href : "";
-
+const location = useLocation();
+  const currentCategory = decodeURIComponent(location.pathname.split("/").pop());
     const shareLinks = {
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
         twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`,
@@ -43,7 +45,16 @@ const Footer = () => {
                     </div>
                     <nav className="hidden   lg:flex space-x-3 xl:space-x-4">
                         {NAV_ITEMS.map((item, i) => (
-                            <NavLink key={i}>{item}</NavLink>
+                        <a
+                        key={i}
+                        href={`/category/${item}`}
+                        className={`px-3 py-2 text-lg font-semibold border-b-2 transition duration-150 ${
+                        currentCategory === item ? "text-red-600 border-red-600" : "text-[var(--primary-text-color)] hover:text-red-600 border-transparent hover:border-red-600"
+                }`}
+              >
+                {item}
+              </a>
+
                         ))}
                     </nav>
                     <div className="flex flex-col items-center gap-2">

@@ -110,9 +110,9 @@ export default function PrayerTimeCard() {
             {/* Loading / Error / Content */}
             {loading ? (
                 <div className="animate-pulse p-6 space-y-3">
-                    <div className="h-5 bg-gray-200 rounded"></div>
-                    <div className="h-5 bg-gray-200 rounded w-5/6"></div>
-                    <div className="h-5 bg-gray-200 rounded w-4/6"></div>
+                    <div className="h-5 bg-gray-200  rounded"></div>
+                    <div className="h-5 bg-gray-200  rounded w-5/6"></div>
+                    <div className="h-5 bg-gray-200  rounded w-4/6"></div>
                 </div>
             ) : error ? (
                 <div className="text-center py-10 text-red-600 font-semibold">
@@ -121,7 +121,7 @@ export default function PrayerTimeCard() {
             ) : (
                 <>
                     {/* Date */}
-                    <div className="text-center bg-sky-100 py-2 border-b border-sky-200">
+                    <div className="text-center   py-2 border-b border-sky-200">
                         <p className="text-[var(--primary-text-color)] font-semibold  ">
                             {dateInfo.weekday?.en} {dateInfo.readable}
                         </p>
@@ -152,7 +152,7 @@ export default function PrayerTimeCard() {
                     </div>
 
                     {/* Footer */}
-                    <div className="border-t border-gray-200 bg-sky-50 px-6 py-4 text-sm">
+                    <div className="border-t border-gray-200   px-6 py-4 text-sm">
                         {/* <p className="text-center text-gray-700 mb-3">
                             সূত্র : ইসলামিক ফাউন্ডেশন বাংলাদেশ
                         </p> */}

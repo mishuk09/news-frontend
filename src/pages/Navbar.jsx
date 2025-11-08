@@ -20,6 +20,7 @@ import {
     Youtube,
 } from "lucide-react";
 import banglareports from "../assets/navbar/banglareports.png";
+import { useLocation } from "react-router-dom";
 const NAV_ITEMS = [
     "সর্বশেষ",
     "বাংলাদেশ",
@@ -37,14 +38,14 @@ const NAV_ITEMS = [
     "খেলা",
 ];
 
-const NavLink = ({ children }) => (
-    <a
-        href="#"
-        className="text-[var(--primary-text-color)] hover:text-red-600 transition duration-150 px-3 py-2 text-lg font-semibold whitespace-nowrap border-b-2 border-transparent hover:border-red-600"
-    >
-        {children}
-    </a>
-);
+// const NavLink = ({ children }) => (
+//     <a
+//         href="#"
+//         className="text-[var(--primary-text-color)] hover:text-red-600 transition duration-150 px-3 py-2 text-lg font-semibold whitespace-nowrap border-b-2 border-transparent hover:border-red-600"
+//     >
+//         {children}
+//     </a>
+// );
 
 const MobileLink = ({ children, onClick }) => (
     <a
@@ -62,6 +63,9 @@ const Navbar = () => {
     const [todayBn, setTodayBn] = useState("");
     const { theme, toggleTheme } = useContext(ThemeContext);
     const [scrolled, setScrolled] = useState(false);
+
+     const location = useLocation();
+  const currentCategory = decodeURIComponent(location.pathname.split("/").pop());
 
     const searchRef = useRef(null);
 
@@ -111,11 +115,11 @@ const Navbar = () => {
                 <a href="/" className=" ">
                     <img src={banglareports} className="w-full h-14" alt="Bangla Reports" />
                 </a>
-                <span className="text-lg text-gray-600">ঢাকা, {todayBn}</span>
+                <span className="text-lg text-[var(--primary-text-color)]">ঢাকা, {todayBn}</span>
 
                 <div className="hidden lg:flex gap-2 ">
                     <div className="flex gap-1">
-                        <Share2 size={16} className="text-slate-500" />
+                        <Share2 size={16} className="text-[var(--primary-text-color)]" />
                         <p className="text-sm text-slate-600">শেয়ার করুন:</p>
                     </div>
                     {/* Social Icons */}
@@ -142,7 +146,16 @@ const Navbar = () => {
                     {/* Desktop Nav */}
                     <nav className="hidden   lg:flex space-x-3 xl:space-x-4">
                         {NAV_ITEMS.map((item, i) => (
-                            <NavLink key={i}>{item}</NavLink>
+                        <a
+                        key={i}
+                        href={`/category/${item}`}
+                        className={`px-3 py-2 text-lg font-semibold border-b-2 transition duration-150 ${
+                        currentCategory === item ? "text-red-600 border-red-600" : "text-[var(--primary-text-color)] hover:text-red-600 border-transparent hover:border-red-600"
+                }`}
+              >
+                {item}
+              </a>
+
                         ))}
                     </nav>
 

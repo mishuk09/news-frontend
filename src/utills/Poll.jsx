@@ -57,8 +57,7 @@ export default function Poll() {
   if (loading) {
     return (
       <div
-        className={`${theme === "dark" ? "dark-bg-color" : "bg-white"
-          } rounded p-4 text-center`}
+        className= " rounded p-4 text-center"
       >
         <p className="text-gray-500">লোড হচ্ছে...</p>
       </div>
@@ -99,7 +98,7 @@ export default function Poll() {
         {question.options.map((opt) => (
           <label
             key={opt._id}
-            className="flex items-center border p-2 border-gray-300 rounded mb-2 cursor-pointer hover:bg-gray-50"
+            className="flex items-center border p-2 border-gray-300 rounded mb-2 cursor-pointer hover:[var(--hover-bg)]"
           >
             <input
               type="radio"

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useParams } from "react-router-dom"
 import Home from "./pages/Home"
 import Navbar from "./pages/Navbar"
 import BlogDetails from "./pages/BlogDetails"
@@ -8,6 +8,12 @@ import ResultPool from "./components/PoolResult/ResultPool"
 import SingleDecision from "./pages/singleDecision"
 import LatestNews from "./components/LatestNews/LatestNews"
 
+
+
+const CategoryPage = () => {
+  const { category } = useParams();
+  return <LatestNews category={category || "সর্বশেষ"} />;
+};
 
 function App() {
 
@@ -23,7 +29,8 @@ function App() {
         <Route path='/decision/:id' element={<SingleDecision />} />
 
         {/* Sub Section */}
-        <Route path='/latest-news' element={<LatestNews />} />
+        {/* <Route path='/latest-news' element={<LatestNews />} /> */}
+        <Route path="/category/:category" element={<CategoryPage />} />
       </Routes>
 
       <Footer />

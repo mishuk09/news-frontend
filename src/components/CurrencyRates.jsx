@@ -200,7 +200,7 @@ const CurrencyRates = () => {
     return (
         <>
            <div className="max-w-7xl mx-auto px-4 py-6 mt-6">
-             <Headline name="Currency Rates against BDT" link={<DollarSign />} />
+             <Headline name="মুদ্রা বিনিময় হার" link={<DollarSign />} />
            </div>
             <div className=" mx-auto p-4">
                 {/* <h1 className="text-3xl font-bold text-center text-gray-700 mb-8">Currency Rates against BDT</h1> */}
@@ -212,14 +212,14 @@ const CurrencyRates = () => {
                             {Object.keys(rates).map((currency) => (
                                 <div
                                     key={currency}
-                                    className="flex-shrink-0 w-30 flex flex-col items-center bg-white rounded-lg shadow p-2 border border-gray-200"
+                                    className="flex-shrink-0 w-30 flex flex-col items-center bg-[var(--bg-color)] rounded-lg shadow p-2 border border-gray-200"
                                 >
                                     <img
                                         src={getFlagUrl(currency)}
                                         alt={`${currency} flag`}
                                         className="w-12 h-8 mb-2 rounded border-gray-200 "
                                     />
-                                    <div className=" font-semibold text-gray-800">{currency}</div>
+                                    <div className=" font-semibold text-[var(--primary-text-color)]">{currency}</div>
                                     <div className=" font-bold text-indigo-600 mt-1">
                                         {(1 / rates[currency] * rates["BDT"]).toFixed(2)} BDT
                                     </div>

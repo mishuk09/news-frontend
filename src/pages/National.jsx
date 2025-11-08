@@ -3,55 +3,54 @@ import Headline from '../components/Headline';
 import NatonalFormat from '../components/NationalFormat/NatonalFormat';
 import { ThemeContext } from '../hooks/ThemeContext';
 import divisionsData from '../components/divisions.json'; // Correct import of JSON
-import { Flag } from 'lucide-react';
 
 const National = () => {
     const { theme } = useContext(ThemeContext);
 
-    const [selectedDivision, setSelectedDivision] = useState('');
-    const [selectedDistrict, setSelectedDistrict] = useState('');
-    const [selectedUpazila, setSelectedUpazila] = useState('');
+    // const [selectedDivision, setSelectedDivision] = useState('');
+    // const [selectedDistrict, setSelectedDistrict] = useState('');
+    // const [selectedUpazila, setSelectedUpazila] = useState('');
 
-    // Handle division change
-    const handleDivisionChange = (e) => {
-        setSelectedDivision(e.target.value);
-        setSelectedDistrict('');  // Reset district when division changes
-        setSelectedUpazila('');  // Reset upazila when district changes
-    };
+    // // Handle division change
+    // const handleDivisionChange = (e) => {
+    //     setSelectedDivision(e.target.value);
+    //     setSelectedDistrict('');  // Reset district when division changes
+    //     setSelectedUpazila('');  // Reset upazila when district changes
+    // };
 
-    // Get the districts based on the selected division
-    const getDistricts = () => {
-        if (selectedDivision) {
-            const division = divisionsData.divisions.find(
-                (division) => division.name.toLowerCase() === selectedDivision.toLowerCase()
-            );
-            return division ? division.districts : [];
-        }
-        return [];
-    };
+    // // Get the districts based on the selected division
+    // const getDistricts = () => {
+    //     if (selectedDivision) {
+    //         const division = divisionsData.divisions.find(
+    //             (division) => division.name.toLowerCase() === selectedDivision.toLowerCase()
+    //         );
+    //         return division ? division.districts : [];
+    //     }
+    //     return [];
+    // };
 
-    // Get upazilas based on selected district
-    const getUpazilas = () => {
-        if (selectedDivision && selectedDistrict) {
-            const division = divisionsData.divisions.find(
-                (division) => division.name.toLowerCase() === selectedDivision.toLowerCase()
-            );
-            if (division) {
-                const district = division.districts.find(
-                    (district) => district.name.toLowerCase() === selectedDistrict.toLowerCase()
-                );
-                return district ? district.upazilas : [];
-            }
-        }
-        return [];
-    };
+    // // Get upazilas based on selected district
+    // const getUpazilas = () => {
+    //     if (selectedDivision && selectedDistrict) {
+    //         const division = divisionsData.divisions.find(
+    //             (division) => division.name.toLowerCase() === selectedDivision.toLowerCase()
+    //         );
+    //         if (division) {
+    //             const district = division.districts.find(
+    //                 (district) => district.name.toLowerCase() === selectedDistrict.toLowerCase()
+    //             );
+    //             return district ? district.upazilas : [];
+    //         }
+    //     }
+    //     return [];
+    // };
 
-    // Handle form submission
-    const handleSubmit = () => {
-        console.log('Division:', selectedDivision);
-        console.log('District:', selectedDistrict);
-        console.log('Upazila:', selectedUpazila);
-    };
+    // // Handle form submission
+    // const handleSubmit = () => {
+    //     console.log('Division:', selectedDivision);
+    //     console.log('District:', selectedDistrict);
+    //     console.log('Upazila:', selectedUpazila);
+    // };
 
     return (
         <div className="p-2  rounded-lg max-w-7xl mx-auto">
@@ -119,7 +118,7 @@ const National = () => {
                     </button>
                 </div>
             </div> */}
-            <NatonalFormat division={selectedDivision} district={selectedDistrict} upazila={selectedUpazila} />
+            <NatonalFormat   />
         </div>
     );
 };

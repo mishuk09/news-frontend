@@ -31,7 +31,7 @@ const WorldMain = () => {
                                 <a key={blog._id} href={`/product/${blog._id}`} className="lg:col-span-2 cursor-pointer">
                                     <div className="  rounded overflow-hidden  border border-gray-200">
                                         {/* 🔹 Full overlay gradient */}
-                                        <div className="relative aspect-video w-full h-[335px] bg-gray-100">
+                                        <div className="relative aspect-video w-full h-[335px] bg-[var(--bg-color)]">
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
                                             <img
                                                 src={blog.img}
@@ -61,7 +61,7 @@ const WorldMain = () => {
                     </div>
 
                     {/* Trending News */}
-                    <div className="lg:col-span-2 bg-white px-2 rounded border-b border-gray-200">
+                    <div className="lg:col-span-2 bg-[var(--bg-color)] px-2 rounded border-b border-gray-200">
                         <h3 className="text-lg font-bold  mb-3 border-b-2 border-red-600 pb-1">
                             আলোচিত খবর
                         </h3>
@@ -91,7 +91,7 @@ const WorldMain = () => {
                         শীর্ষ খবর ও হালনাগাদ
                         <ChevronRight className="w-5 h-5 text-red-600" />
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-2 rounded   ">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(--bg-color)] p-2 rounded   ">
                         {news.slice(1, 7).map((data, index) => (
                             <TopNewsItem key={index} news={data} />
                         ))}

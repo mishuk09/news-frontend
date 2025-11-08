@@ -7,7 +7,7 @@ const NewsCard = ({ news }) => {
     return (
         <a
             href={`/news/${_id}`}
-            className="block   rounded overflow-hidden hover:bg-gray-100 hover:shadow-lg transition-all duration-300 border border-gray-100"
+            className="block   rounded overflow-hidden   hover:bg-[var(--hover-bg)] transition cursor-pointer border border-gray-100"
         >
             <div className="relative w-full h-40">
                 {/* Image */}

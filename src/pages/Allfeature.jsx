@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Headline from '../components/Headline';
 import { WholeWord } from 'lucide-react';
 import NewsTime from '../utills/NewsTime';
+import SubHeadline from '../components/SubHeadline';
+import ChildHeadline from '../components/ChildHeadline';
 
 
 const getFirstImageUrl = (news) => {
@@ -49,7 +51,7 @@ const FeatureItemCard = ({ news }) => {
     return (
         <a
             href={`/news/${_id}`}
-            className="block  h-full rounded overflow-hidden hover:bg-gray-100 hover:shadow-lg transition-all duration-300 border border-gray-100"
+            className="block  h-full rounded overflow-hidden hover:[var(--hover-bg)] hover:shadow-lg transition-all duration-300 border border-gray-100"
         >
             <div className="relative w-full h-40">
                 {/* Image */}
@@ -93,10 +95,11 @@ const NewsSection = ({ category, newsItems }) => {
     if (!mainItem) return null;
 
     return (
-        <div className="bg-white p-2 flex flex-col h-full">
+        <div className="bg-[var(--bg-color)] p-2 flex flex-col h-full">
             <div className="flex justify-between items-center pb-2 mb-4 border-b border-red-100">
                 <h2 className="text-xl font-extrabold  border-b-2 border-red-600 pb-1">
-                    {category}
+                    {/* {category} */}
+                    <SubHeadline name={category} />
                 </h2>
             </div>
 
@@ -113,12 +116,13 @@ const NewsSection = ({ category, newsItems }) => {
             )}
 
             <div className="mt-6 pt-4 border-t border-gray-100">
-                <button
+                {/* <button
                     onClick={() => console.log(`More news clicked for: ${category}`)}
                     className="w-full text-sm text-white font-semi-bold bg-[var(--primary-color)] hover:bg-red-600  py-3 rounded "
                 >
                     আরও দেখুন
-                </button>
+                </button> */}
+                <ChildHeadline name={category} />
             </div>
         </div>
     );
@@ -170,15 +174,6 @@ export default function Allfeature() {
     // ... (rest of the component JSX remains the same)
     return (
         <div className="min-h-screen max-w-7xl mx-auto p-4 md:p-8">
-
-            {/* Intro Section */}
-            <div className="mb-8">
-                <Headline name='অন্যান্য বিভাগীয় সংবাদ' link={<WholeWord />} />
-                {/* <p className="text-xl  mt-2">
-                    আপনার পছন্দের বিভাগ থেকে খবর দেখুন। প্রতিটি বিভাগের জন্য একটি প্রধান খবর এবং তিনটি গুরুত্বপূর্ণ খবর নীচে দেখানো হলো।
-                </p> */}
-            </div>
-
             {/* Loading/Error State */}
             {loading && (
                 <div className="text-center py-10 text-xl ">

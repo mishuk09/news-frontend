@@ -4,7 +4,7 @@ const TopNewsItem = ({ news }) => {
     const imageUrl = Array.isArray(img) && img.length > 0 ? img[0] : "https://placehold.co/100x70?text=No+Image";
 
     return (
-        <a href={`/news/${_id}`} className="flex gap-4 p-2   hover:bg-gray-100 border-b border-gray-300   cursor-pointer">
+        <a href={`/news/${_id}`} className="flex gap-4 p-2   hover:bg-[var(--hover-bg)] border-b border-gray-300   cursor-pointer">
             <div className="w-26 h-26 flex-shrink-0 rounded-md overflow-hidden border border-gray-200">
                 <img
                     src={imageUrl}

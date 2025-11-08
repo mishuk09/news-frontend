@@ -50,12 +50,12 @@ const ProtestComponent = () => {
             {/* LEFT CARD */}
             <a
                 href={`/decision/${latest._id}`} // ✅ Makes left card clickable
-                className="bg-blue-50 w-[40%] relative p-6 border border-gray-300 rounded shadow-md col-span-2 hover:shadow-lg transition cursor-pointer block"
+                className="bg-[var(--bg-color)] w-[40%] relative p-6 border border-gray-300 rounded shadow-md col-span-2 hover:shadow-lg transition cursor-pointer block"
             >
                 <div className="absolute left-[-30px] bg-indigo-950 text-white px-4 py-3 inline-block rounded mb-4 text-xl font-semibold w-full">
                     {latest.title || "No title available"}
                 </div>
-                <p className="text-lg text-gray-700 mb-4 pt-16 line-clamp-5 leading-relaxed text-justify">
+                <p className="text-lg text-[var(--primary-text-color)] mb-4 pt-16 line-clamp-5 leading-relaxed text-justify">
                     {latest.description || "No description provided for this decision."}
                 </p>
                 <div className="flex items-center gap-3 mt-4">
@@ -67,7 +67,7 @@ const ProtestComponent = () => {
                         alt={latest.authorName || "Anonymous"}
                         className="w-14 h-14 rounded-full object-cover"
                     />
-                    <h3 className="text-gray-900 font-semibold">
+                    <h3 className="text-[var(--primary-text-color)] font-semibold">
                         {latest.authorName || "Unknown Author"}
                     </h3>
                 </div>
@@ -79,7 +79,7 @@ const ProtestComponent = () => {
                     <a
                         href={`/decision/${item._id}`} // ✅ Makes each title clickable
                         key={item._id || index}
-                        className="flex items-center gap-4 border-b pb-3 border-gray-300 hover:bg-gray-50 transition cursor-pointer"
+                        className="flex  items-center gap-4 border-b pb-3 border-gray-300 hover:bg-[var(--hover-bg)] transition cursor-pointer"
                     >
                         {/* Author Image */}
                         <img
@@ -93,10 +93,10 @@ const ProtestComponent = () => {
 
                         {/* Text Section */}
                         <div className="flex-1">
-                            <h4 className="text-xl font-semibold leading-snug hover:underline text-gray-900">
+                            <h4 className="text-xl font-semibold leading-snug hover:underline text-[var(--primary-text-color)]">
                                 {item.title || "Untitled Decision"}
                             </h4>
-                            <p className="text-gray-600 mt-1">
+                            <p className="text-[var(--primary-text-color)] mt-1">
                                 {item.authorName || "Unknown Author"}
                             </p>
                         </div>

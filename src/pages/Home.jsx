@@ -11,50 +11,15 @@ import NewsTime from '../utills/NewsTime';
 
  
 
-
-const FeaturedCard = ({ title, img, createdAt }) => {
-    const imageUrl =
-        Array.isArray(img) && img.length > 0
-            ? img[0]
-            : "https://placehold.co/400x250?text=No+Image";
-
-    return (
-        <div className="relative flex flex-col bg-white rounded overflow-hidden border border-gray-100  ">
-            {/* Image Section */}
-            <div className="relative w-full h-40 overflow-hidden">
-                <img
-                    src={imageUrl}
-                    alt={title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                    onError={(e) =>
-                    (e.target.src =
-                        "https://placehold.co/400x250/F3F4F6/1F2937?text=Placeholder")
-                    }
-                />
-            </div>
-
-            {/* Content Section */}
-            <div className="flex flex-col flex-1 p-2">
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 hover:text-red-600 transition-colors duration-200 leading-snug line-clamp-2">
-                    {title}
-                </h3>
-                <div className="mt-2 text-sm text-gray-500">
-                    <NewsTime createdAt={createdAt} />
-                </div>
-            </div>
-        </div>
-    );
-};
-
 const Home = () => {
     const { theme } = useContext(ThemeContext);
 
     const [blogs, setBlogs] = useState([]);
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     // const [currentPage, setCurrentPage] = useState(1);
     // const itemsPerPageSection1 = 4;
-    const shareUrl = encodeURIComponent(window.location.href);
+    // const shareUrl = encodeURIComponent(window.location.href);
 
     useEffect(() => {
         axios.get('http://localhost:5000/allnews/')
@@ -69,17 +34,17 @@ const Home = () => {
             });
     }, []);
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/allnews/categories')
-            .then(response => {
-                setCategories(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setLoading(false);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get('http://localhost:5000/allnews/categories')
+    //         .then(response => {
+    //             setCategories(response.data);
+    //             setLoading(false);
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     return (
         <div className=''>
@@ -90,7 +55,7 @@ const Home = () => {
                         <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded `}>
                             {loading ? <Skeleton height={100} count={5} /> : (
                                 Array.isArray(blogs) && blogs.slice(8, 12).map((blog) => (
-                                    <Sidenews scroll={true} maxHeight="500px" key={blog._id} blog={blog} />
+                                    <Sidenews  blog={blog} />
                                 ))
                             )}
                         </div>
@@ -109,7 +74,7 @@ const Home = () => {
                         <div className='h-full    relative rounded-sm'>
                             {loading ? <Skeleton height={500} /> : (
                                 Array.isArray(blogs) && blogs.slice(2, 3).map((blog) => (
-                                    <a key={blog._id} href={`/product/${blog._id}`} className="lg:col-span-2 cursor-pointer">
+                                    <a key={blog._id} href={`/news/${blog._id}`} className="lg:col-span-2 cursor-pointer">
                                         <div className="  rounded overflow-hidden  border border-gray-200">
                                             {/* 🔹 Full overlay gradient */}
                                             <div className="relative aspect-video w-full h-[335px] bg-gray-100">
@@ -160,7 +125,7 @@ const Home = () => {
                             <h2 className='text-2xl mb-1 border-b-1 border-dotted    font-bold'>সর্বশেষ</h2>
                             {Array.isArray(blogs) && blogs.slice(0, 1).map((blog) => (
                                 <a
-                                    href={`/product/${blog._id}`}
+                                    href={`/news/${blog._id}`}
                                     key={blog._id} // Use one consistent ID for the React key
                                     className='cursor-pointer relative rounded-sm group overflow-hidden block h-40 ' // Added 'block' and a fixed height for grid consistency
                                 >
@@ -204,7 +169,7 @@ const Home = () => {
                                 ))
                             )}
                         </div>
-                        <div className='bg-white mt-4   h-full rounded-sm'>
+                        <div className='  mt-4   h-full rounded-sm'>
 
                             <Poll />
 
