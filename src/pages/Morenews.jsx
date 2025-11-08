@@ -20,9 +20,9 @@ const Morenews = () => {
                     </div>
                 ) : news && news.length > 0 ? (
                     news.slice(0, 9).map((blog) => (
-                        <a key={blog._id} href={`/product/${blog._id}`}
+                        <a key={blog._id} href={`/news/${blog._id}`}
                             className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
-                            <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                            <div className="flex items-start p-2 border-b border-gray-200 hover:bg-[var(--hover-bg)]    transition cursor-pointer">
                                 <div className="w-26 h-26 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
                                     <img
                                         src={blog.img}

@@ -1,4 +1,4 @@
-import { Copyright, Facebook, Instagram, Linkedin, MessageCircle, Twitter, Youtube } from "lucide-react";
+import { Copyright, Facebook, Instagram, Linkedin, MessageCircle, Twitter, Youtube, YoutubeIcon } from "lucide-react";
 import banglareports from "../assets/navbar/banglareports.png";
 import { useLocation } from "react-router-dom";
 
@@ -62,17 +62,17 @@ const location = useLocation();
                             অনুসরণ করুন
                         </div>
                         <div className="flex gap-3">
-                            <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:scale-110 transition-transform">
+                            <a href="https://www.facebook.com/banglareportsbd" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:scale-110 transition-transform">
                                 <Facebook size={18} />
                             </a>
-                            <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-sky-500 hover:scale-110 transition-transform">
+                            {/* <a href={shareLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-sky-500 hover:scale-110 transition-transform">
                                 <Twitter size={18} />
-                            </a>
-                            <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:scale-110 transition-transform">
+                            </a> */}
+                            {/* <a href={shareLinks.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:scale-110 transition-transform">
                                 <Linkedin size={18} />
-                            </a>
-                            <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:scale-110 transition-transform">
-                                <MessageCircle size={18} />
+                            </a> */}
+                            <a href="https://www.youtube.com/@banglareportsbd" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:scale-110 transition-transform">
+                                <YoutubeIcon size={18} />
                             </a>
                         </div>
                     </div>

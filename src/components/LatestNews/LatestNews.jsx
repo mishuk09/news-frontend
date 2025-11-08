@@ -8,7 +8,7 @@ import TopNewsItem from "../../utills/TopNewsItem";
 
 const API_URL = "http://localhost:5000/allnews/";
 const bgImage =
-  "https://ichef.bbci.co.uk/ace/standard/976/cpsprodpb/1837D/production/_85979199_bangladesh_farmer_g.jpg";
+  "https://t4.ftcdn.net/jpg/09/72/52/97/360_F_972529706_IfJTvvISURwyWhZFQtLZdhc8ouYSh27Y.jpg";
 
 /**
  * Dynamic news section that filters data based on category
@@ -117,7 +117,7 @@ const LatestNews = ({ category }) => {
           শীর্ষ খবর ও হালনাগাদ
           <ChevronRight className="w-5 h-5 text-red-600" />
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-2 rounded">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(-bg-color)] p-2 rounded">
           {filteredNews.slice(1, 7).map((data, index) => (
             <TopNewsItem key={index} news={data} />
           ))}

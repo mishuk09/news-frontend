@@ -50,7 +50,7 @@ const ProtestComponent = () => {
             {/* LEFT CARD */}
             <a
                 href={`/decision/${latest._id}`} // ✅ Makes left card clickable
-                className="bg-[var(--bg-color)] w-[40%] relative p-6 border border-gray-300 rounded shadow-md col-span-2 hover:shadow-lg transition cursor-pointer block"
+                className="bg-[var(--bg-color)] hidden lg:block w-[40%] relative p-6 border border-gray-300 rounded shadow-md col-span-2 hover:shadow-lg transition cursor-pointer  "
             >
                 <div className="absolute left-[-30px] bg-indigo-950 text-white px-4 py-3 inline-block rounded mb-4 text-xl font-semibold w-full">
                     {latest.title || "No title available"}
@@ -74,7 +74,7 @@ const ProtestComponent = () => {
             </a>
 
             {/* RIGHT LIST */}
-            <div className="space-y-6 w-[60%]">
+            <div className="space-y-6 w-full lg:w-[60%] ">
                 {others.map((item, index) => (
                     <a
                         href={`/decision/${item._id}`} // ✅ Makes each title clickable

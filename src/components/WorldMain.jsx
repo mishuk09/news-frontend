@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import useFetch from '../hooks/useFetch';
 import NewsTime from '../utills/NewsTime';
 import NewsCard from '../utills/NewsCard';
 import Sidenews from '../utills/Sidenews';
 import TopNewsItem from '../utills/TopNewsItem';
+import Skeleton from 'react-loading-skeleton';
 
 
 
 
 const WorldMain = () => {
-    const { data: news, loading, error } = useFetch("http://localhost:5000/allnews/");
-    // ✅ Filter news by category
-    const worldNews = news.filter(item => item.category === "বিশ্ব");
-    if (loading) return <p className="text-center py-10 ">Loading...</p>;
-    if (error) return <p className="text-center py-10 text-red-600">Error: {error.message}</p>;
+   const [news, setNews] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+ useEffect(() => {
+        const fetchNews = async () => {
+            setLoading(true)
+            try {
+                const res = await fetch("http://localhost:5000/allnews/");
+                const data = await res.json();
+                setNews(data);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchNews();
+    }, []);
 
+    const worldNews = news.filter(item => item.category === "বিশ্ব");
+    
+    
     return (
         <div className="min-h-screen">
             <main className="max-w-7xl mx-auto px-3 py-2 ">
@@ -61,18 +78,46 @@ const WorldMain = () => {
                     </div>
 
                     {/* Trending News */}
-                    <div className="lg:col-span-2 bg-[var(--bg-color)] px-2 rounded border-b border-gray-200">
+                    {/* <div className="lg:col-span-2 bg-[var(--bg-color)] px-2 rounded border-b border-gray-200">
                         <h3 className="text-lg font-bold  mb-3 border-b-2 border-red-600 pb-1">
                             আলোচিত খবর
                         </h3>
                         <div className="grid grid-cols-2 gap-2  ">
                             {worldNews.slice(2, 10).map((item, index) => (
-                                // <TrendingItem key={index} title={item.title} news={item} />
-                                // <NewsCard key={index} news={item} />
-                                <Sidenews key={index} blog={item} />
+                                <Sidenews loading={loading} key={index} blog={item} />
                             ))}
                         </div>
-                    </div>
+                    </div> */}
+
+                    {/* Trending News */}
+<div className="lg:col-span-2 bg-[var(--bg-color)] px-2 rounded border-b border-gray-200">
+  <h3 className="text-lg font-bold mb-3 border-b-2 border-red-600 pb-1">
+    আলোচিত খবর
+  </h3>
+
+  <div className="grid grid-col-1 lg:grid-cols-2 gap-2">
+    {loading ? (
+      // Render fixed number of skeleton placeholders while loading
+      Array.from({ length: 8 }).map((_, i) => (
+        // pass an empty blog object; Sidenews won't read fields when loading=true
+        <Sidenews loading={true} key={`skel-${i}`} blog={{}} />
+      ))
+    ) : (
+      // When not loading, render actual news items (guard against shorter arrays)
+      (worldNews.slice(2, 10).length > 0 ? 
+        worldNews.slice(2, 10).map((item) => (
+          <Sidenews loading={false} key={item._id || item.title || Math.random()} blog={item} />
+        ))
+        :
+        // Optional: show a friendly "no items" message if array empty
+        <div className="col-span-2 text-center py-6 text-gray-500">
+          কোন আলোচিত খবর পাওয়া যায়নি।
+        </div>
+      )
+    )}
+  </div>
+</div>
+
                 </section>
 
                 {/* Featured News */}
@@ -86,17 +131,26 @@ const WorldMain = () => {
                 </section>
 
                 {/* Top News Updates */}
-                <section>
-                    <h2 className="text-2xl font-bold  mb-6 border-b border-red-600 pb-3 flex items-center gap-2">
-                        শীর্ষ খবর ও হালনাগাদ
-                        <ChevronRight className="w-5 h-5 text-red-600" />
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(--bg-color)] p-2 rounded   ">
-                        {news.slice(1, 7).map((data, index) => (
-                            <TopNewsItem key={index} news={data} />
-                        ))}
-                    </div>
-                </section>
+             <section>
+    <h2 className="text-2xl font-bold mb-6 border-b border-red-600 pb-3 flex items-center gap-2">
+        শীর্ষ খবর ও হালনাগাদ
+        <ChevronRight className="w-5 h-5 text-red-600" />
+    </h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(--bg-color)] p-2 rounded">
+        {loading ? (
+            // Show 6 skeleton items
+            Array.from({ length: 6 }).map((_, i) => (
+                <TopNewsItem key={`top-skel-${i}`} loading={true} news={{}} />
+            ))
+        ) : (
+            news.slice(1, 7).map((data, index) => (
+                <TopNewsItem key={index} loading={false} news={data} />
+            ))
+        )}
+    </div>
+</section>
+
 
             </main>
         </div>

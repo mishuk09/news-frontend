@@ -5,6 +5,7 @@ import { WholeWord } from 'lucide-react';
 import NewsTime from '../utills/NewsTime';
 import SubHeadline from '../components/SubHeadline';
 import ChildHeadline from '../components/ChildHeadline';
+import SkeletonNewsSection from '../utills/SkeletonNewsSection';
 
 
 const getFirstImageUrl = (news) => {
@@ -175,11 +176,14 @@ export default function Allfeature() {
     return (
         <div className="min-h-screen max-w-7xl mx-auto p-4 md:p-8">
             {/* Loading/Error State */}
-            {loading && (
-                <div className="text-center py-10 text-xl ">
-                    সংবাদ লোড হচ্ছে...
-                </div>
-            )}
+           {loading && (
+    <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        {[1, 2, 3, 4].map((i) => (
+            <SkeletonNewsSection key={i} />
+        ))}
+    </main>
+)}
+
             {error && (
                 <div className="text-center py-10 text-xl text-red-600">
                     {error}

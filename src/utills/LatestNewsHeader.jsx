@@ -21,7 +21,7 @@ const LatestNewsHeader = ({ headline, description, category, bgImage, news, load
           
           {/* Route (Top Left) */}
           <div className="absolute top-2 left-0 flex items-center gap-2 z-20">
-           <p> <Home className="text-white " size={16} /></p>
+           <a href="/"> <Home className="text-white " size={16} /></a>
             <p className="text-red-400  cursor-pointer font-semibold tracking-wide uppercase">
               / {category }
             </p>

@@ -86,9 +86,9 @@ const BlogDetails = () => {
                                 </div>
                             ) : blogs && blogs.length > 0 ? (
                                 blogs.slice(1, 6).map((blog) => (
-                                    <a key={blog._id} href={`/product/${blog._id}`}
+                                    <a key={blog._id} href={`/news/${blog._id}`}
                                         className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
-                                        <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                                        <div className="flex items-start p-2 border-b border-gray-200 hover:bg-[var(--hover-bg)]  transition cursor-pointer">
                                             <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
                                                 <img
                                                     src={blog.img}
@@ -121,7 +121,7 @@ const BlogDetails = () => {
                         ) : (
                             <>
                                 {/* Title */}
-                                <h1 className="font-semibold text-2xl md:text-4xl text-gray-800 leading-snug tracking-wide mt-2">
+                                <h1 className="font-semibold text-2xl md:text-4xl text-[var(--primary-text-color)] leading-snug tracking-wide mt-2">
                                     {blog.title}
                                 </h1>
 
@@ -133,7 +133,7 @@ const BlogDetails = () => {
                                 <div className='flex justify-between border-b pb-2 border-gray-300'>
                                     {/* Date */}
                                     <p className="mt-3 flex items-center gap-1   text-slate-500">
-                                        <span className="font-medium text-slate-600">প্রকাশঃ</span>
+                                        <span className="font-medium text-[var(--primary-text-color)]">প্রকাশঃ</span>
                                         {new Date(blog.createdAt).toLocaleDateString('bn-BD', {
                                             year: 'numeric',
                                             month: 'long',
@@ -143,8 +143,8 @@ const BlogDetails = () => {
 
                                     {/* Social Share */}
                                     <div className="flex items-center gap-3 mt-4">
-                                        <Share2 size={16} className="text-slate-500" />
-                                        <p className="text-sm text-slate-600">শেয়ার করুন:</p>
+                                        <Share2 size={16} className="text-[var(--primary-text-color)]" />
+                                        <p className="text-sm text-[var(--primary-text-color)]">শেয়ার করুন:</p>
 
                                         <div className="flex gap-3">
                                             <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:scale-110 transition-transform">
@@ -175,7 +175,7 @@ const BlogDetails = () => {
 
                                 {/* Description */}
                                 <div
-                                    className="text-justify text-lg text-[var(--primary-text-color)] leading-relaxed pt-8 prose max-w-none prose-p:mb-4 prose-img:rounded-lg"
+                                    className="text-justify text-lg text-[var(--primary-text-color)]  leading-relaxed pt-8 prose max-w-none prose-p:mb-4 prose-img:rounded-lg"
                                     dangerouslySetInnerHTML={{ __html: blog.description }}
                                 />
                             </>
@@ -190,9 +190,9 @@ const BlogDetails = () => {
                             {loading ? (
                                 <Skeleton height={100} count={5} />
                             ) : (Array.isArray(blogs) && blogs.slice(0, 4).map((blog) => (
-                                <a key={blog._id} href={`/product/${blog._id}`}
+                                <a key={blog._id} href={`/news/${blog._id}`}
                                     className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
-                                    <div className="flex items-start p-2 border-b border-gray-200 hover:bg-gray-100   transition cursor-pointer">
+                                    <div className="flex items-start p-2 border-b border-gray-200 hover:bg-[var(--hover-bg)]   transition cursor-pointer">
                                         <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
                                             <img
                                                 src={blog.img}

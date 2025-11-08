@@ -165,7 +165,7 @@ const Navbar = () => {
                         <div ref={searchRef} className="relative bg-red-50 text-[var(--primary-color)] rounded-md">
                             <button
                                 onClick={() => setSearchOpen(!searchOpen)}
-                                className="p-2 text-gray-700 hover:text-red-600 transition rounded-md"
+                                className="p-2 text-[var(--primary-text-xolor)] hover:text-red-600 transition rounded-md"
                             >
                                 <Search size={22} />
                             </button>
@@ -205,7 +205,7 @@ const Navbar = () => {
                         {/* Mobile Menu */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="lg:hidden p-2 text-gray-700 hover:text-red-600 transition"
+                            className="lg:hidden p-2 text-[var(--primary-text-color)] hover:text-red-600 transition"
                             aria-label="Toggle menu"
                         >
                             {isMobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
@@ -218,7 +218,7 @@ const Navbar = () => {
                     className={`lg:hidden transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
                         }`}
                 >
-                    <div className="border-t border-gray-200    ">
+                    <div className="border-t border-gray-200   text-[var(--primary-text-color)]  ">
                         {NAV_ITEMS.map((item, i) => (
                             <MobileLink key={i} onClick={() => setIsMobileMenuOpen(false)}>
                                 {item}
