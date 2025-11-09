@@ -10,7 +10,7 @@ export default function Poll() {
   const [voting, setVoting] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API_BASE = "http://localhost:5000/questionPool/question";
+  const API_BASE = "http://72.61.112.34:5000/questionPool/question";
 
   // Fetch latest question
   const fetchLatestQuestion = async () => {

@@ -29,7 +29,7 @@ const BlogDetails = () => {
         const fetchBlog = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`http://localhost:5000/singlenews/${id}`);
+                const response = await fetch(`http://72.61.112.34:5000/singlenews/${id}`);
                 if (!response.ok) {
                     console.error('Failed to fetch blog details');
                     return;
@@ -53,7 +53,7 @@ const BlogDetails = () => {
 
             setLoading(true);
             try {
-                const response = await axios.get('http://localhost:5000/allnews');
+                const response = await axios.get('http://72.61.112.34:5000/allnews');
                 // Filter: same category, but not the same blog
                 const related = response.data.filter(
                     (b) => b.category === blog.category && b._id !== blog._id

@@ -17,7 +17,7 @@ const NatonalFormat = ({ division, district, upazila }) => {
   const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-  axios.get("http://localhost:5000/allnews/")
+  axios.get("http://72.61.112.34:5000/allnews/")
     .then(res => {
       // Make sure res.data is an array
       if (Array.isArray(res.data)) {
@@ -37,7 +37,7 @@ const NatonalFormat = ({ division, district, upazila }) => {
 }, []);
 
 
-    // const { data: news, loading } = useFetch("http://localhost:5000/allnews/");
+    // const { data: news, loading } = useFetch("http://72.61.112.34:5000/allnews/");
 
     return (
         <div>

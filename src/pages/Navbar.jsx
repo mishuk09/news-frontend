@@ -23,7 +23,7 @@ import banglareports from "../assets/navbar/banglareports.png";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 const NAV_ITEMS = [
-    "সর্বশেষ",
+    // "সর্বশেষ",
     "বাংলাদেশ",
     "বিশ্ব",
     "স্বাস্থ্য",
@@ -108,7 +108,7 @@ const Navbar = () => {
     
     // Fetch all news once
     useEffect(() => {
-        axios.get("http://localhost:5000/allnews/")
+        axios.get("http://72.61.112.34:5000/allnews/")
             .then((res) => setAllNews(res.data))
             .catch((err) => console.error(err));
     }, []);

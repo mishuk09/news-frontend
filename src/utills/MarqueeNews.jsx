@@ -9,7 +9,7 @@ const MarqueeNews = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/allnews/')
+        axios.get('http://72.61.112.34:5000/allnews/')
             .then(response => {
                 setNews(response.data.slice(0, 5)); // Limit to first 5 news items
                 setLoading(false);

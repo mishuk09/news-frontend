@@ -19,7 +19,7 @@ const [error, setError] = useState(null);
 
  
     useEffect(() => {
-        axios.get("http://localhost:5000/most-view/")
+        axios.get("http://72.61.112.34:5000/most-view/")
             .then(res => setFront(res.data.mostRead))
             .catch(err => console.error(err));
     }, []);
@@ -28,7 +28,7 @@ const [error, setError] = useState(null);
         const fetchNews = async () => {
             setLoading(true)
             try {
-                const res = await fetch("http://localhost:5000/allnews/");
+                const res = await fetch("http://72.61.112.34:5000/allnews/");
                 const data = await res.json();
                 setNews(data);
             } catch (err) {

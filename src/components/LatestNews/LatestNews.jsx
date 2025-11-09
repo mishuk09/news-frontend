@@ -6,7 +6,7 @@ import LatestNewsHeader from "../../utills/LatestNewsHeader";
 import LatestNewsChild from "./LatestNewsChild";
 import TopNewsItem from "../../utills/TopNewsItem";
 
-const API_URL = "http://localhost:5000/allnews/";
+const API_URL = "http://72.61.112.34:5000/allnews/";
 const bgImage =
   "https://t4.ftcdn.net/jpg/09/72/52/97/360_F_972529706_IfJTvvISURwyWhZFQtLZdhc8ouYSh27Y.jpg";
 

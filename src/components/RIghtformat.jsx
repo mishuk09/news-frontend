@@ -7,7 +7,7 @@ const RIghtformat = ({ path }) => {
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/${path}/`)
+        axios.get(`http://72.61.112.34:5000/${path}/`)
             .then(response => {
                 // setPosts(response.data.slice(0, 12));
                 setBlogs(response.data);

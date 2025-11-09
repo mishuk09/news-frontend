@@ -21,7 +21,7 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
  
     useEffect(() => {
-        axios.get('http://localhost:5000/allnews/')
+        axios.get('http://72.61.112.34:5000/allnews/')
             .then(response => {
                 // setPosts(response.data.slice(0, 12));
                 setBlogs(response.data);
@@ -34,7 +34,7 @@ const Home = () => {
     }, []);
  
     useEffect(() => {
-        axios.get('http://localhost:5000/top-news/front-news')
+        axios.get('http://72.61.112.34:5000/top-news/front-news')
             .then(response => {
                 // setPosts(response.data.slice(0, 12));
                 setFront(response.data);
@@ -47,7 +47,7 @@ const Home = () => {
     }, []);
  
     useEffect(() => {
-        axios.get('http://localhost:5000/semi-top-news/semi-front-news')
+        axios.get('http://72.61.112.34:5000/semi-top-news/semi-front-news')
             .then(response => {
                 // setPosts(response.data.slice(0, 12));
                 setSemifront(response.data);
@@ -61,7 +61,7 @@ const Home = () => {
  
     
     useEffect(() => {
-        axios.get("http://localhost:5000/most-view/")
+        axios.get("http://72.61.112.34:5000/most-view/")
             .then(res => setMostRead(res.data.mostRead))
             .catch(err => console.error(err));
     }, []);

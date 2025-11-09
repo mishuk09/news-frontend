@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const ProtestComponent = () => {
-    const API_URL = "http://localhost:5000/decision/";
+    const API_URL = "http://72.61.112.34:5000/decision/";
     const [decisions, setDecisions] = useState([]);
     const [loading, setLoading] = useState(true);
 

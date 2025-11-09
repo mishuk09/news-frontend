@@ -12,7 +12,7 @@ const Mainformat = () => {
   const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-  axios.get("http://localhost:5000/allnews/")
+  axios.get("http://72.61.112.34:5000/allnews/")
     .then(res => {
       // Make sure res.data is an array
       if (Array.isArray(res.data)) {
