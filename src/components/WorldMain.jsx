@@ -6,14 +6,24 @@ import NewsCard from '../utills/NewsCard';
 import Sidenews from '../utills/Sidenews';
 import TopNewsItem from '../utills/TopNewsItem';
 import Skeleton from 'react-loading-skeleton';
+import axios from 'axios';
 
 
 
 
 const WorldMain = () => {
    const [news, setNews] = useState([]);
+   const [front, setFront] = useState([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
+
+ 
+    useEffect(() => {
+        axios.get("http://localhost:5000/most-view/")
+            .then(res => setFront(res.data.mostRead))
+            .catch(err => console.error(err));
+    }, []);
+
  useEffect(() => {
         const fetchNews = async () => {
             setLoading(true)
@@ -33,6 +43,8 @@ const [error, setError] = useState(null);
     const worldNews = news.filter(item => item.category === "বিশ্ব");
     
     
+   
+    
     return (
         <div className="min-h-screen">
             <main className="max-w-7xl mx-auto px-3 py-2 ">
@@ -45,7 +57,7 @@ const [error, setError] = useState(null);
                     <div className='h-full lg:col-span-2 cursor-pointer   relative rounded'>
                         {loading ? <Skeleton height={500} /> : (
                             Array.isArray(worldNews) && worldNews.slice(0, 1).map((blog) => (
-                                <a key={blog._id} href={`/product/${blog._id}`} className="lg:col-span-2 cursor-pointer">
+                                <a key={blog._id} href={`/news/${blog._id}`} className="lg:col-span-2 cursor-pointer">
                                     <div className="  rounded overflow-hidden  border border-gray-200">
                                         {/* 🔹 Full overlay gradient */}
                                         <div className="relative aspect-video w-full h-[335px] bg-[var(--bg-color)]">
@@ -123,7 +135,7 @@ const [error, setError] = useState(null);
                 {/* Featured News */}
                 <section className="mb-12">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {news.slice(1, 5).map((article, index) => (
+                        {worldNews.slice(11, 15).map((article, index) => (
                             <NewsCard key={index} news={article} />
 
                         ))}
@@ -140,12 +152,12 @@ const [error, setError] = useState(null);
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(--bg-color)] p-2 rounded">
         {loading ? (
             // Show 6 skeleton items
-            Array.from({ length: 6 }).map((_, i) => (
+            Array.from({ length: 7 }).map((_, i) => (
                 <TopNewsItem key={`top-skel-${i}`} loading={true} news={{}} />
             ))
         ) : (
-            news.slice(1, 7).map((data, index) => (
-                <TopNewsItem key={index} loading={false} news={data} />
+            front.slice(1, 7).map((data, index) => (
+                <TopNewsItem key={index} loading={false} front={data} />
             ))
         )}
     </div>

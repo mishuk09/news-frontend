@@ -8,19 +8,18 @@ import Sidenews from '../utills/Sidenews';
 import Skeleton from 'react-loading-skeleton';
 import NewsCard from '../utills/NewsCard';
 import NewsTime from '../utills/NewsTime';
+import SemiNewsCard from '../utills/SemiNewsCard';
 
  
 
 const Home = () => {
     const { theme } = useContext(ThemeContext);
-
+    const [mostRead, setMostRead] = useState([]);
+    const [front, setFront] = useState([]);
+    const [semifront, setSemifront] = useState([]);
     const [blogs, setBlogs] = useState([]);
-    // const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const itemsPerPageSection1 = 4;
-    // const shareUrl = encodeURIComponent(window.location.href);
-
+ 
     useEffect(() => {
         axios.get('http://localhost:5000/allnews/')
             .then(response => {
@@ -33,18 +32,39 @@ const Home = () => {
                 setLoading(false);
             });
     }, []);
-
-    // useEffect(() => {
-    //     axios.get('http://localhost:5000/allnews/categories')
-    //         .then(response => {
-    //             setCategories(response.data);
-    //             setLoading(false);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //             setLoading(false);
-    //         });
-    // }, []);
+ 
+    useEffect(() => {
+        axios.get('http://localhost:5000/top-news/front-news')
+            .then(response => {
+                // setPosts(response.data.slice(0, 12));
+                setFront(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setLoading(false);
+            });
+    }, []);
+ 
+    useEffect(() => {
+        axios.get('http://localhost:5000/semi-top-news/semi-front-news')
+            .then(response => {
+                // setPosts(response.data.slice(0, 12));
+                setSemifront(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setLoading(false);
+            });
+    }, []);
+ 
+    
+    useEffect(() => {
+        axios.get("http://localhost:5000/most-view/")
+            .then(res => setMostRead(res.data.mostRead))
+            .catch(err => console.error(err));
+    }, []);
 
     return (
         <div className=''>
@@ -54,7 +74,7 @@ const Home = () => {
                         <h2 className='text-2xl mb-2 border-b-2 border-dotted    font-bold'>সর্বাধিক পঠিত</h2>
                         <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded `}>
                             {loading ? <Skeleton height={100} count={5} /> : (
-                                Array.isArray(blogs) && blogs.slice(8, 12).map((blog) => (
+                                Array.isArray(mostRead) && mostRead.slice(0, 4).map((blog) => (
                                     <Sidenews  blog={blog} />
                                 ))
                             )}
@@ -62,8 +82,8 @@ const Home = () => {
                         <section className="mb-12 mt-5">
                             <div className="grid grid-cols-1  gap-3">
                                 {loading ? <Skeleton height={150} count={3} /> : (
-                                    Array.isArray(blogs) && blogs.slice(8, 11).map((article, index) => (
-                                        <NewsCard key={index} news={article} />
+                                    Array.isArray(semifront) && semifront.slice(0, 3).map((article, index) => (
+                                        <SemiNewsCard key={index} news={article} />
                                     ))
                                 )}
                             </div>
@@ -73,8 +93,8 @@ const Home = () => {
                     <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} p-1  w-full md:w-[50%] h-full rounded relative`}>
                         <div className='h-full    relative rounded-sm'>
                             {loading ? <Skeleton height={500} /> : (
-                                Array.isArray(blogs) && blogs.slice(2, 3).map((blog) => (
-                                    <a key={blog._id} href={`/news/${blog._id}`} className="lg:col-span-2 cursor-pointer">
+                                Array.isArray(front) && front.slice(0, 1).map((blog) => (
+                                    <a key={blog._id} href={`/front-news/${blog._id}`} className="lg:col-span-2 cursor-pointer">
                                         <div className="  rounded overflow-hidden  border border-gray-200">
                                             {/* 🔹 Full overlay gradient */}
                                             <div className="relative aspect-video w-full h-[335px] bg-gray-100">
@@ -110,9 +130,9 @@ const Home = () => {
                             <section className="mb-12">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
                                     {loading ? <Skeleton height={250} count={2} containerClassName="flex w-full" /> : (
-                                        blogs && blogs.slice(8, 14).map((article, index) => (
+                                        semifront && semifront.slice(4, 10).map((article, index) => (
                                             // <FeaturedCard key={index} {...article} />
-                                            <NewsCard key={index} news={article} />
+                                            <SemiNewsCard key={index} news={article} />
                                         ))
                                     )}
                                 </div>
@@ -164,7 +184,7 @@ const Home = () => {
                         </div>
                         <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded `}>
                             {loading ? <Skeleton height={100} count={5} /> : (
-                                Array.isArray(blogs) && blogs.slice(10, 13).map((blog) => (
+                                Array.isArray(blogs) && blogs.slice(2, 5).map((blog) => (
                                     <Sidenews scroll={true} maxHeight="500px" key={blog._id} blog={blog} />
                                 ))
                             )}

@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import banglareports from "../assets/navbar/banglareports.png";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 const NAV_ITEMS = [
     "সর্বশেষ",
     "বাংলাদেশ",
@@ -37,16 +38,7 @@ const NAV_ITEMS = [
     "বিজ্ঞান",
     "খেলা",
 ];
-
-// const NavLink = ({ children }) => (
-//     <a
-//         href="#"
-//         className="text-[var(--primary-text-color)] hover:text-red-600 transition duration-150 px-3 py-2 text-lg font-semibold whitespace-nowrap border-b-2 border-transparent hover:border-red-600"
-//     >
-//         {children}
-//     </a>
-// );
-
+ 
 const MobileLink = ({ children, onClick }) => (
     <a
         href="#"
@@ -64,6 +56,11 @@ const Navbar = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);
     const [scrolled, setScrolled] = useState(false);
 
+
+      // new states for search
+    const [searchQuery, setSearchQuery] = useState("");
+    const [allNews, setAllNews] = useState([]);
+    const [filteredNews, setFilteredNews] = useState([]);
      const location = useLocation();
   const currentCategory = decodeURIComponent(location.pathname.split("/").pop());
 
@@ -107,6 +104,37 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
+
+    
+    // Fetch all news once
+    useEffect(() => {
+        axios.get("http://localhost:5000/allnews/")
+            .then((res) => setAllNews(res.data))
+            .catch((err) => console.error(err));
+    }, []);
+
+    // Filter news when searchQuery changes
+    useEffect(() => {
+        if (searchQuery.trim() === "") {
+            setFilteredNews([]);
+        } else {
+            const filtered = allNews.filter(news =>
+                news.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredNews(filtered);
+        }
+    }, [searchQuery, allNews]);
+
+    // Close search on click outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setSearchOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
     return (
         <div className="w-full   border-b border-gray-200">
             {/* Top Section */}
@@ -161,24 +189,51 @@ const Navbar = () => {
 
                     {/* Right Icons */}
                     <div className="flex items-center mx-auto lg:mx-0 space-x-3">
-                        {/* Search */}
-                        <div ref={searchRef} className="relative bg-red-50 text-[var(--primary-color)] rounded-md">
-                            <button
-                                onClick={() => setSearchOpen(!searchOpen)}
-                                className="p-2 text-[var(--primary-text-xolor)] hover:text-red-600 transition rounded-md"
-                            >
-                                <Search size={22} />
-                            </button>
-                            {searchOpen && (
-                                <div className="absolute top-10 right-0 w-64 sm:w-72 bg-white border border-gray-200 rounded-md shadow-lg p-2 z-20">
-                                    <input
-                                        type="text"
-                                        placeholder="Search news..."
-                                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
-                                    />
-                                </div>
-                            )}
-                        </div>
+                         {/* Search portion */}
+            <div ref={searchRef} className="relative bg-red-50 text-[var(--primary-color)] rounded-md">
+                <button
+                    onClick={() => setSearchOpen(!searchOpen)}
+                    className="p-2 text-[var(--primary-text-color)] hover:text-red-600 transition rounded-md"
+                >
+                    <Search size={22} />
+                </button>
+                {searchOpen && (
+                    <div className="absolute top-10 right-0 w-64 sm:w-72 bg-white border border-[var(--primary-color)] rounded-md shadow-lg p-2 z-20">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search news..."
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
+                        />
+
+                        {/* Search Results */}
+                        {filteredNews.length > 0 && (
+                            <ul className="mt-2 max-h-60 overflow-y-auto border-t border-gray-200">
+                                {filteredNews.map((news, index) => (
+                                    <li key={index} className="px-2 py-1 hover:bg-gray-100 rounded cursor-pointer">
+                                        <a href={`/news/${news._id}`} className="flex items-center gap-2">
+                    {/* News Image */}
+                    {news.img && (
+                        <img
+                            src={news.img}
+                            alt={news.title}
+                            className="w-10 h-10 object-cover rounded"
+                        />
+                    )}
+                    {/* News Title */}
+                    <span className="">{news.title}</span>
+                </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        {searchQuery && filteredNews.length === 0 && (
+                            <p className="mt-2 text-sm text-gray-500">No results found</p>
+                        )}
+                    </div>
+                )}
+            </div>
 
                         {/* Language Selector */}
                         <div className="relative bg-red-50 text-[var(--primary-color)] rounded-md">

@@ -8,14 +8,35 @@ import NewsTime from '../utills/NewsTime';
 
 const Mainformat = () => {
     const { theme } = useContext(ThemeContext);
-   const { data: blogs, loading } = useFetch(`http://localhost:5000/allnews/`);
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+  axios.get("http://localhost:5000/allnews/")
+    .then(res => {
+      // Make sure res.data is an array
+      if (Array.isArray(res.data)) {
+        const bangladeshNews = res.data.filter(item => item.category === "বাংলাদেশ");
+        console.log("Filtered news:", bangladeshNews);
+        setNews(bangladeshNews);
+      } else {
+        console.warn("Data is not an array:", res.data);
+        setNews([]);
+      }
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error("Error fetching news:", err);
+      setLoading(false);
+    });
+}, []);
 
     return (
         <div>
             <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} p-1  w-full   h-full rounded relative`}>
                 <div className='h-full    relative rounded-sm'>
                     {loading ? <Skeleton height={500} /> : (
-                        Array.isArray(blogs) && blogs.slice(2, 3).map((blog) => (
+                        Array.isArray(news) && news.slice(2, 3).map((blog) => (
                             <a key={blog._id} href={`/product/${blog._id}`} className="lg:col-span-2 cursor-pointer">
                                 <div className="  rounded overflow-hidden  border border-gray-200">
                                     {/* 🔹 Full overlay gradient */}

@@ -7,6 +7,8 @@ import Footer from "./pages/Footer"
 import ResultPool from "./components/PoolResult/ResultPool"
 import SingleDecision from "./pages/singleDecision"
 import LatestNews from "./components/LatestNews/LatestNews"
+import FrontNewsDetails from "./pages/FrontNewsDetails"
+import SemiFrontNewsDetails from "./pages/SemiFrontNewsDetails"
 
 
 
@@ -26,6 +28,8 @@ function App() {
         <Route path='/' element={<ChildHome />} />
         <Route path='/pool-result' element={<ResultPool />} />
         <Route path='/news/:id' element={<BlogDetails />} />
+        <Route path='/front-news/:id' element={<FrontNewsDetails />} />
+        <Route path='/semi-front-news/:id' element={<SemiFrontNewsDetails />} />
         <Route path='/decision/:id' element={<SingleDecision />} />
 
         {/* Sub Section */}

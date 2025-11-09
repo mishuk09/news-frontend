@@ -10,7 +10,7 @@ export default function Poll() {
   const [voting, setVoting] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API_BASE = "http://127.0.0.1:5000/questionPool/question";
+  const API_BASE = "http://localhost:5000/questionPool/question";
 
   // Fetch latest question
   const fetchLatestQuestion = async () => {
@@ -89,7 +89,7 @@ export default function Poll() {
       </div>
 
       {/* Question */}
-      <p className="mt-4 text-lg text-justify leading-tight">
+      <p className="mt-4 text-xl   text-justify leading-tight">
         {question.questionText}
       </p>
 
