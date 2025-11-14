@@ -5,7 +5,7 @@ import WorldMain from '../components/WorldMain';
 const World = () => {
     return (
         <>
-            <div className='p-4 mt-10 rounded-lg max-w-7xl mx-auto'>
+            <div className='p-2 mt-10 rounded-lg max-w-7xl mx-auto'>
 
                 <Headline name='বিশ্ব' link='/world' />
                 <WorldMain />

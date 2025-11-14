@@ -15,7 +15,7 @@ const LatestNewsGrandChild = ({ news,loading }) => {
                 <div className='flex  gap-2 w-full pt-4'>
                     <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} hidden md:block  w-[25%]  h-full rounded `}>
                         {loading ? <Skeleton height={100} count={5} /> : (
-                            Array.isArray(news) && news.slice(8, 13).map((blog) => (
+                            Array.isArray(news) && news.slice(9, 14).map((blog) => (
                                 <Sidenews scroll={true} maxHeight="500px" key={blog._id} blog={blog} />
                             ))
                         )}
@@ -27,7 +27,7 @@ const LatestNewsGrandChild = ({ news,loading }) => {
 
                     <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} hidden md:block  w-[25%]  h-full rounded `}>
                         {loading ? <Skeleton height={100} count={5} /> : (
-                            Array.isArray(news) && news.slice(8, 13).map((blog) => (
+                            Array.isArray(news) && news.slice(17, 22).map((blog) => (
                                 <Sidenews scroll={true} maxHeight="500px" key={blog._id} blog={blog} />
                             ))
                         )}
@@ -38,7 +38,7 @@ const LatestNewsGrandChild = ({ news,loading }) => {
             {/* Featured News */}
             <section className="mt-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {news && news.slice(8, 20).map((article, index) => (
+                    {news && news.slice(23, 34).map((article, index) => (
                         <NewsCard key={index} news={article} />
                     ))}
                 </div>

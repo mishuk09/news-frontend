@@ -4,9 +4,11 @@ import { useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import axios from 'axios';
-import { Facebook, Twitter, Linkedin, Share2, MessageCircle } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Share2, MessageCircle, ChevronRight } from 'lucide-react';
 import { ThemeContext } from '../hooks/ThemeContext';
 import Morenews from './Morenews';
+import TopNewsItem from '../utills/TopNewsItem';
+import Sidenews from '../utills/Sidenews';
 
 const  SemiFrontNewsDetails = () => {
     const { id } = useParams();
@@ -29,7 +31,7 @@ const  SemiFrontNewsDetails = () => {
         const fetchBlog = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`http://72.61.112.34:5000/semi-top-news/${id}`);
+                const response = await fetch(`https://news-backend-user.onrender.com/semi-top-news/${id}`);
                 if (!response.ok) {
                     console.error('Failed to fetch blog details');
                     return;
@@ -53,12 +55,12 @@ const  SemiFrontNewsDetails = () => {
 
             setLoading(true);
             try {
-                const response = await axios.get('http://72.61.112.34:5000/allnews');
+                const response = await axios.get('https://news-backend-user.onrender.com/allnews');
                 // Filter: same category, but not the same blog
                 const related = response.data.filter(
                     (b) => b.category === blog.category && b._id !== blog._id
                 );
-                setBlogs(related);
+                setBlogs(related.reverse());
             } catch (error) {
                 console.log(error);
             } finally {
@@ -80,32 +82,11 @@ const  SemiFrontNewsDetails = () => {
                         <h2 className='text-xl mb-2 border-b-1 p-2 border-dotted     font-semibold'>এ সম্পর্কিত খবর</h2>
 
                         <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} rounded`}>
-                            {loading ? (
-                                <div className="p-3">
-                                    <Skeleton height={100} count={5} />
-                                </div>
-                            ) : blogs && blogs.length > 0 ? (
-                                blogs.slice(1, 6).map((blog) => (
-                                    <a key={blog._id} href={`/news/${blog._id}`}
-                                        className="flex   h-auto      cursor-pointer  lg:mb-1 lg:flex-row       ">
-                                        <div className="flex items-start p-2 border-b border-gray-200 hover:bg-[var(--hover-bg)]  transition cursor-pointer">
-                                            <div className="w-20 h-20 bg-gray-200 mr-4 rounded overflow-hidden flex-shrink-0">
-                                                <img
-                                                    src={blog.img}
-                                                    alt="news"
-                                                    className="w-full h-full object-cover"
-                                                    onError={(e) => (e.target.src = "https://placehold.co/100x100?text=Error")}
-                                                />
-                                            </div>
-                                            <p className=" text-lg   font-semibold text-[var(--primary-text-color)] leading-snug">
-                                                {blog.title.slice(0, 80)}{blog.title.length > 50 ? '...' : ''}
-                                            </p>
-                                        </div>
-                                    </a>
-                                ))
-                            ) : (
-                                <p className="text-center text-gray-500 py-4">No related news found.</p>
-                            )}
+                                 {loading ? <Skeleton height={100} count={5} /> : (
+                                   Array.isArray(blogs) && blogs.slice(0, 4).map((blog) => (
+                                  <Sidenews scroll={true}   key={blog._id} blog={blog} />
+                                    ))
+                                   )}
                         </div>
                     </div>
 
@@ -214,7 +195,17 @@ const  SemiFrontNewsDetails = () => {
 
                     </div>
                 </div>
-                <Morenews />
+                <section className="max-w-7xl mx-auto my-10">
+                <h2 className="text-2xl px-2 font-bold  mb-6 border-b border-red-600 pb-3 flex items-center gap-2">
+                সম্পর্কিত অন্যান্য
+                <ChevronRight className="w-5 h-5 text-red-600" />
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(-bg-color)] p-2 rounded">
+                {blogs.slice(0, 6).map((data, index) => (
+                    <TopNewsItem key={index} mostnews={data} />
+                ))}
+                </div>
+            </section>
             </div>
         </div>
     );

@@ -5,6 +5,7 @@ import { Clock } from 'lucide-react';
 import useFetch from '../hooks/useFetch';
 import Skeleton from 'react-loading-skeleton';
 import NewsTime from '../utills/NewsTime';
+import DescriptionText from '../utills/DescriptionText';
 
 const Mainformat = () => {
     const { theme } = useContext(ThemeContext);
@@ -12,7 +13,7 @@ const Mainformat = () => {
   const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-  axios.get("http://72.61.112.34:5000/allnews/")
+  axios.get("https://news-backend-user.onrender.com/allnews/")
     .then(res => {
       // Make sure res.data is an array
       if (Array.isArray(res.data)) {
@@ -60,8 +61,9 @@ const Mainformat = () => {
                                         <h2 className="text-3xl font-bold text-[var(--primary-text-color)] leading-tight hover:text-red-600 transition">
                                             {blog.title}
                                         </h2>
+                                        <DescriptionText description={blog.description} />
                                         {/* <DescriptionPreview description={blog.description} /> */}
-                                        <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: blog.description }}></p>
+                                        {/* <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: blog.description }}></p> */}
                                     </div>
                                 </div>
                             </a>

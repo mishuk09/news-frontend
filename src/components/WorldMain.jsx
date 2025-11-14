@@ -19,7 +19,7 @@ const [error, setError] = useState(null);
 
  
     useEffect(() => {
-        axios.get("http://72.61.112.34:5000/most-view/")
+        axios.get("https://news-backend-user.onrender.com/most-view/")
             .then(res => setFront(res.data.mostRead))
             .catch(err => console.error(err));
     }, []);
@@ -28,7 +28,7 @@ const [error, setError] = useState(null);
         const fetchNews = async () => {
             setLoading(true)
             try {
-                const res = await fetch("http://72.61.112.34:5000/allnews/");
+                const res = await fetch("https://news-backend-user.onrender.com/allnews/");
                 const data = await res.json();
                 setNews(data);
             } catch (err) {
@@ -150,16 +150,9 @@ const [error, setError] = useState(null);
     </h2>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(--bg-color)] p-2 rounded">
-        {loading ? (
-            // Show 6 skeleton items
-            Array.from({ length: 7 }).map((_, i) => (
-                <TopNewsItem key={`top-skel-${i}`} loading={true} news={{}} />
-            ))
-        ) : (
-            front.slice(1, 7).map((data, index) => (
-                <TopNewsItem key={index} loading={false} front={data} />
-            ))
-        )}
+         {front.slice(0, 6).map((data, index) => (
+                    <TopNewsItem key={index} mostnews={data} />
+                ))}
     </div>
 </section>
 

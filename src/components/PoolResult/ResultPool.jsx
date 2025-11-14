@@ -9,7 +9,7 @@ export default function ResultPool() {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const API_BASE = "http://72.61.112.34:5000/questionPool/question";
+    const API_BASE = "https://news-backend-user.onrender.com/questionPool/question";
 
     useEffect(() => {
         const fetchData = async () => {

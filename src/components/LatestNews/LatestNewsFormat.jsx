@@ -12,7 +12,7 @@ const LatestNewsFormat = ({ news, loading }) => {
             <div className={`${theme === 'dark' ? 'dark-bg-color' : 'bg-white'} p-1  w-full   h-full rounded relative`}>
                 <div className='h-full    relative rounded-sm'>
                     {loading ? <Skeleton height={500} /> : (
-                        Array.isArray(news) && news.slice(2, 3).map((blog) => (
+                        Array.isArray(news) && news.slice(15, 16).map((blog) => (
                             <a key={blog._id} href={`/product/${blog._id}`} className="lg:col-span-2 cursor-pointer">
                                 <div className="  rounded overflow-hidden  border border-gray-200">
                                     {/* 🔹 Full overlay gradient */}

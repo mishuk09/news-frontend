@@ -1,5 +1,6 @@
 import React from "react";
 import NewsTime from "./NewsTime";
+import DescriptionText from "./DescriptionText";
 
 const NewsCard = ({ news }) => {
     const { _id, title, description, img, category, location, createdAt } = news;
@@ -14,7 +15,7 @@ const NewsCard = ({ news }) => {
                 <img
                     src={img || "https://placehold.co/600x400?text=No+Image"}
                     alt={title}
-                    className="w-full h-full object-cover"
+                    className="w-full border border-gray-100 rounded h-full object-cover"
                 />
 
                 {/* 🔹 Full overlay gradient */}
@@ -37,7 +38,8 @@ const NewsCard = ({ news }) => {
                 <h2 className="text-lg font-semibold text-[var(--primary-text-color)] line-clamp-2 leading-tight">
                     {title}
                 </h2>
-                <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: description }}></p>
+                <DescriptionText description={description} />
+                {/* <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: description }}></p> */}
             </div>
         </a>
     );

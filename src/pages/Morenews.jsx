@@ -5,7 +5,7 @@ import { ThemeContext } from '../hooks/ThemeContext';
 import Skeleton from 'react-loading-skeleton';
 
 const Morenews = () => {
-    const { data: news, loading, error } = useFetch("http://72.61.112.34:5000/allnews/");
+    const { data: news, loading, error } = useFetch("https://news-backend-user.onrender.com/allnews/");
     const { theme } = useContext(ThemeContext);
 
     return (

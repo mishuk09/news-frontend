@@ -1,7 +1,8 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import DescriptionText from "./DescriptionText";
 
-const TopNewsItem = ({ front, loading }) => {
+const TopNewsItem = ({ mostnews, loading }) => {
     if (loading) {
         return (
             <div className="flex gap-4 p-2 border-b border-gray-300">
@@ -18,11 +19,11 @@ const TopNewsItem = ({ front, loading }) => {
     }
 
     // 🔥 Prevent destructuring crash
-    if (!front) {
+    if (!mostnews) {
         return null; // or fallback UI
     }
 
-    const { _id, title, description, img } = front;
+    const { _id, title, description, img } = mostnews;
     const imageUrl =
         Array.isArray(img) && img.length > 0
             ? img[0]
@@ -48,10 +49,13 @@ const TopNewsItem = ({ front, loading }) => {
                 <p className="text-sm sm:text-xl line-clamp-2 font-semibold leading-snug text-[var(--primary-text-color)]">
                     {title}
                 </p>
-                <p
-                    className="text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight"
-                    dangerouslySetInnerHTML={{ __html: description }}
-                ></p>
+                 <DescriptionText description={description} />
+                {/* <p
+                className="text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight 
+                            [&_*]:font-normal [&_*]:text-inherit [&_*]:not-italic [&_*]:m-0"
+                dangerouslySetInnerHTML={{ __html: description }}
+                ></p> */}
+
             </div>
         </a>
     );

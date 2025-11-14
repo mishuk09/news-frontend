@@ -4,7 +4,7 @@ import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import Morenews from "./Morenews";
 
-const API_URL = "http://72.61.112.34:5000/decision/";
+const API_URL = "https://news-backend-user.onrender.com/decision/";
 
 const SingleDecision = () => {
     const { id } = useParams();

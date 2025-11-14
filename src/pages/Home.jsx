@@ -9,6 +9,7 @@ import Skeleton from 'react-loading-skeleton';
 import NewsCard from '../utills/NewsCard';
 import NewsTime from '../utills/NewsTime';
 import SemiNewsCard from '../utills/SemiNewsCard';
+import DescriptionText from '../utills/DescriptionText';
 
  
 
@@ -21,10 +22,10 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
  
     useEffect(() => {
-        axios.get('http://72.61.112.34:5000/allnews/')
+        axios.get('https://news-backend-user.onrender.com/allnews/')
             .then(response => {
                 // setPosts(response.data.slice(0, 12));
-                setBlogs(response.data);
+                setBlogs(response.data.reverse());
                 setLoading(false);
             })
             .catch(error => {
@@ -34,7 +35,7 @@ const Home = () => {
     }, []);
  
     useEffect(() => {
-        axios.get('http://72.61.112.34:5000/top-news/front-news')
+        axios.get('https://news-backend-user.onrender.com/top-news/front-news')
             .then(response => {
                 // setPosts(response.data.slice(0, 12));
                 setFront(response.data);
@@ -47,7 +48,7 @@ const Home = () => {
     }, []);
  
     useEffect(() => {
-        axios.get('http://72.61.112.34:5000/semi-top-news/semi-front-news')
+        axios.get('https://news-backend-user.onrender.com/semi-top-news/semi-front-news')
             .then(response => {
                 // setPosts(response.data.slice(0, 12));
                 setSemifront(response.data);
@@ -61,7 +62,7 @@ const Home = () => {
  
     
     useEffect(() => {
-        axios.get("http://72.61.112.34:5000/most-view/")
+        axios.get("https://news-backend-user.onrender.com/most-view/")
             .then(res => setMostRead(res.data.mostRead))
             .catch(err => console.error(err));
     }, []);
@@ -117,8 +118,9 @@ const Home = () => {
                                                 <h2 className="text-3xl font-bold text-[var(--primary-text-color)] leading-tight hover:text-red-600 transition">
                                                     {blog.title}
                                                 </h2>
+                                                  <DescriptionText description={blog.description} />
                                                 {/* <DescriptionPreview description={blog.description} /> */}
-                                                <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: blog.description }}></p>
+                                                {/* <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: blog.description }}></p> */}
                                             </div>
                                         </div>
                                     </a>

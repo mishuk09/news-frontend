@@ -7,7 +7,7 @@ const Leftformat = ({ path, division, district, upazila }) => {
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://72.61.112.34:5000/${path}/`)
+        axios.get(`https://news-backend-user.onrender.com/${path}/`)
             .then(response => {
                 const nofilter = response.data;
 

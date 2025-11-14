@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import axios from 'axios';
-import { Facebook, Twitter, Linkedin, Share2, MessageCircle } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Share2, MessageCircle, ChevronRight } from 'lucide-react';
 import { ThemeContext } from '../hooks/ThemeContext';
 import Morenews from './Morenews';
+import TopNewsItem from '../utills/TopNewsItem';
 
 const FrontNewsDetails = () => {
     const { id } = useParams();
@@ -29,7 +30,7 @@ const FrontNewsDetails = () => {
         const fetchBlog = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`http://72.61.112.34:5000/top-news/${id}`);
+                const response = await fetch(`https://news-backend-user.onrender.com/top-news/${id}`);
                 if (!response.ok) {
                     console.error('Failed to fetch blog details');
                     return;
@@ -53,12 +54,12 @@ const FrontNewsDetails = () => {
 
             setLoading(true);
             try {
-                const response = await axios.get('http://72.61.112.34:5000/allnews');
+                const response = await axios.get('https://news-backend-user.onrender.com/allnews');
                 // Filter: same category, but not the same blog
                 const related = response.data.filter(
                     (b) => b.category === blog.category && b._id !== blog._id
                 );
-                setBlogs(related);
+                setBlogs(related.reverse());
             } catch (error) {
                 console.log(error);
             } finally {
@@ -214,7 +215,18 @@ const FrontNewsDetails = () => {
 
                     </div>
                 </div>
-                <Morenews />
+                {/* <Morenews /> */}
+                 <section className="max-w-7xl mx-auto my-10">
+                <h2 className="text-2xl px-2 font-bold  mb-6 border-b border-red-600 pb-3 flex items-center gap-2">
+                সম্পর্কিত অন্যান্য
+                <ChevronRight className="w-5 h-5 text-red-600" />
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-[var(-bg-color)] p-2 rounded">
+                {blogs.slice(0, 6).map((data, index) => (
+                    <TopNewsItem key={index} mostnews={data} />
+                ))}
+                </div>
+            </section>
             </div>
         </div>
     );

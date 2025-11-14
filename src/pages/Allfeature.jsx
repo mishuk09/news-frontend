@@ -140,7 +140,7 @@ export default function Allfeature() {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await axios.get('http://72.61.112.34:5000/allnews/');
+                const response = await axios.get('https://news-backend-user.onrender.com/allnews/');
                 setAllNews(response.data);
                 setLoading(false);
             } catch (err) {

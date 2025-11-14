@@ -1,5 +1,6 @@
 import React from "react";
 import NewsTime from "./NewsTime";
+import DescriptionText from "./DescriptionText";
 
 const SemiNewsCard = ({ news }) => {
     const { _id, title, description, img, category, location, createdAt } = news;
@@ -37,7 +38,8 @@ const SemiNewsCard = ({ news }) => {
                 <h2 className="text-lg font-semibold text-[var(--primary-text-color)] line-clamp-2 leading-tight">
                     {title}
                 </h2>
-                <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: description }}></p>
+                {/* <p className=" text-[var(--primary-text-color)] text-lg mt-1 line-clamp-2 leading-tight" dangerouslySetInnerHTML={{ __html: description }}></p> */}
+                <DescriptionText description={news.description} />
             </div>
         </a>
     );

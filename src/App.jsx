@@ -9,6 +9,7 @@ import SingleDecision from "./pages/singleDecision"
 import LatestNews from "./components/LatestNews/LatestNews"
 import FrontNewsDetails from "./pages/FrontNewsDetails"
 import SemiFrontNewsDetails from "./pages/SemiFrontNewsDetails"
+import { Helmet } from "react-helmet"
 
 
 
@@ -21,6 +22,22 @@ function App() {
 
   return (
     <>
+      <Helmet>
+        <title>বাংলা রিপোর্টস – নির্ভরযোগ্য বাংলা নিউজ পোর্টাল</title>
+        <meta
+          name="description"
+          content="আপনার বাংলা নিউজ হাব – রাজনীতি, খেলা, বিনোদন, প্রযুক্তি ও অর্থনীতিসহ বাংলাদেশের এবং বিশ্বের সব গুরুত্বপূর্ণ খবর বিশ্লেষণসহ পড়ুন।"
+        />
+        <link rel="canonical" href="https://www.banglareports.com" />
+        <meta httpEquiv="Content-Language" content="bn" />
+        <meta property="og:title" content="বাংলা রিপোর্টস – নির্ভরযোগ্য বাংলা নিউজ পোর্টাল" />
+        <meta
+          property="og:description"
+          content="আপনার বাংলা নিউজ হাব – রাজনীতি, খেলা, বিনোদন, প্রযুক্তি ও অর্থনীতিসহ বাংলাদেশের এবং বিশ্বের সব গুরুত্বপূর্ণ খবর বিশ্লেষণসহ পড়ুন।"
+        />
+        <meta property="og:url" content="https://www.banglareports.com" />
+        <meta property="og:type" content="website" />
+      </Helmet>
 
       <Navbar />
 

@@ -26,6 +26,7 @@ const NAV_ITEMS = [
     // "সর্বশেষ",
     "বাংলাদেশ",
     "বিশ্ব",
+    "রাজনীতি",
     "স্বাস্থ্য",
     "ধর্ম",
     "শিক্ষা",
@@ -108,7 +109,7 @@ const Navbar = () => {
     
     // Fetch all news once
     useEffect(() => {
-        axios.get("http://72.61.112.34:5000/allnews/")
+        axios.get("https://news-backend-user.onrender.com/allnews/")
             .then((res) => setAllNews(res.data))
             .catch((err) => console.error(err));
     }, []);
@@ -141,7 +142,7 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto flex justify-between items-center  px-2 py-3">
 
                 <a href="/" className=" ">
-                    <img src={banglareports} className="w-full h-14" alt="Bangla Reports" />
+                    <img src={banglareports} className="w-full h-10 lg:h-14" alt="Bangla Reports" />
                 </a>
                 <span className="text-lg text-[var(--primary-text-color)]">ঢাকা, {todayBn}</span>
 
@@ -198,7 +199,7 @@ const Navbar = () => {
                     <Search size={22} />
                 </button>
                 {searchOpen && (
-                    <div className="absolute top-10 right-0 w-64 sm:w-72 bg-white border border-[var(--primary-color)] rounded-md shadow-lg p-2 z-20">
+                    <div className="fixed top-32 mx-auto lg:absolute lg:top-10 lg:right-0 w-80 sm:w-72 bg-white border border-[var(--primary-color)] rounded-md shadow-lg p-2 z-20">
                         <input
                             type="text"
                             value={searchQuery}
@@ -276,7 +277,8 @@ const Navbar = () => {
                     <div className="border-t border-gray-200   text-[var(--primary-text-color)]  ">
                         {NAV_ITEMS.map((item, i) => (
                             <MobileLink key={i} onClick={() => setIsMobileMenuOpen(false)}>
-                                {item}
+                              
+                                <a href={`/category/${item}`}>  {item}</a>
                             </MobileLink>
                         ))}
                     </div>

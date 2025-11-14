@@ -9,9 +9,10 @@ const MarqueeNews = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('http://72.61.112.34:5000/allnews/')
+        axios.get('https://news-backend-user.onrender.com/allnews/')
             .then(response => {
-                setNews(response.data.slice(0, 5)); // Limit to first 5 news items
+                const reversedNews = [...response.data].reverse(); // Reverse entire array
+                setNews(reversedNews.slice(0, 6)); // Then take first 5 (latest)
                 setLoading(false);
             })
             .catch(err => {
@@ -20,6 +21,7 @@ const MarqueeNews = () => {
                 setLoading(false);
             });
     }, []);
+
 
     return (
         <div >
@@ -42,10 +44,11 @@ const MarqueeNews = () => {
                         {news.map((item, index) => (
                             <a
                                 key={index}
-                                href={`/product/${item._id}`}
+                                href={`/news/${item._id}`}
                                 className="text-white hover:text-blue-400 whitespace-nowrap mx-3 text-lg transition-colors duration-200"
                             >
-                                • {item.title}
+                                • {item.title.split(" ").slice(0, 8).join(" ")}
+
                             </a>
                         ))}
                     </Marquee>
